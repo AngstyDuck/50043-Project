@@ -7,9 +7,9 @@
 
 
 # Cloning profs repo and pulling data
-# git clone https://github.com/dinhtta/istd50043_project.git ~/Desktop/500043-Prof
-# chmod 777 ~/Desktop/500043-Prof/scripts/get_data.sh
-# ~/Desktop/500043-Prof/scripts/get_data.sh
+# git clone https://github.com/dinhtta/istd50043_project.git ~/Desktop/50043-Prof
+# chmod 777 ~/Desktop/50043-Prof/scripts/get_data.sh
+# ~/Desktop/50043-Prof/scripts/get_data.sh
 
 # Installing MySQL
 # apt install -y mysql-server
@@ -23,4 +23,8 @@ apt-get install -y mongodb-org
 
 
 # Install python mondules
+sudo apt-get install python3 python3-pip
+sudo apt-get install python3-venv
+python3 -m venv venv
+source venv/bin/activate
 pip3 install flask
