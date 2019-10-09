@@ -18,13 +18,12 @@
 # Installing MongoDB
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
-apt-get update
-apt-get install -y mongodb-org
+sudo apt-get update
+sudo apt-get install -y mongodb-org
 
 
 # Install python mondules
 sudo apt-get install python3 python3-pip
 sudo apt-get install python3-venv
-python3 -m venv venv
-source venv/bin/activate
-pip3 install flask
+python3 -m venv backend/venv
+source backend/venv/bin/activate
