@@ -7,9 +7,9 @@
 
 
 # Cloning profs repo and pulling data
-# git clone https://github.com/dinhtta/istd50043_project.git ~/Desktop/500043-Prof
-# chmod 777 ~/Desktop/500043-Prof/scripts/get_data.sh
-# ~/Desktop/500043-Prof/scripts/get_data.sh
+# git clone https://github.com/dinhtta/istd50043_project.git ~/Desktop/50043-Prof
+# chmod 777 ~/Desktop/50043-Prof/scripts/get_data.sh
+# ~/Desktop/50043-Prof/scripts/get_data.sh
 
 # Installing MySQL
 # apt install -y mysql-server
@@ -18,9 +18,13 @@
 # Installing MongoDB
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
-apt-get update
-apt-get install -y mongodb-org
+sudo apt-get update
+sudo apt-get install -y mongodb-org
 
 
 # Install python mondules
-pip3 install flask
+sudo apt-get install python3 python3-pip
+sudo apt-get install python3-venv
+python3 -m venv backend/venv
+source backend/venv/bin/activate
+pip3 install -r backend/requirements.txt
