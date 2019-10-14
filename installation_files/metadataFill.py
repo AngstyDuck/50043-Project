@@ -9,7 +9,6 @@ METADATADIR = "../50043-Project-lfs/processed_meta_kindle_exported.json"
 
 metadata = MongodbCommon("metadata", "metadata")
 with open(METADATADIR, "r") as readFile:
-    print(readFile.readline())
     for line in readFile:
         jsonDict = json.loads(readFile.readline())
 
