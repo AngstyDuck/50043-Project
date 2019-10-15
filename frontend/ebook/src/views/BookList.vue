@@ -1,54 +1,54 @@
 <template>
-<body>
-  <v-row no-gutters>
-    <v-col cols="12" sm="2">
-      <Book/>
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-  </v-row>
-    <v-row no-gutters>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-    <v-col cols="12" sm="2">
-      <Book />
-    </v-col>
-  </v-row>
-</body>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+      </v-row>
+            <v-row>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+        <v-col cols="12" sm="2">
+          <Book />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <style scoped>
-
 .book {
-  margin: 5px;
+  padding: 0 10px;
 }
-
 </style>
 
 <script>
