@@ -2,42 +2,34 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
-        <v-col cols="12" sm="2">
-          <Book />
-        </v-col>
-        <v-col cols="12" sm="2">
-          <Book />
-        </v-col>
-        <v-col cols="12" sm="2">
+        <v-col cols="12" xs="6" sm="4" md="3" lg="2">
           <Book />
         </v-col>
       </v-row>
