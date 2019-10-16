@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" app clipped>
+    <v-navigation-drawer disable-resize-watcher v-model="drawer" app clipped>
       <v-list dense>
         <v-list-item @click>
           <v-list-item-action>
