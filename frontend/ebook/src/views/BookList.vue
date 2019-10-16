@@ -3,10 +3,17 @@
     <v-container>
       <v-row>
         <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
-          <v-card @click="this.console.log('hi')" class="mx-auto" max-width="344">
-            <v-img :src="book.imUrl" aspec-ratio="1.2" min-height="130px"></v-img>
-            <!-- <v-card-title>{{ asin }}</v-card-title> -->
-          </v-card>
+          <v-hover v-slot:default="{ hover }">
+            <v-card
+              :elevation="hover ? 12 : 2"
+              @click="this.console.log('hi')"
+              class="mx-auto"
+              max-width="344"
+            >
+              <v-img :src="book.imUrl" aspec-ratio="1.2" min-height="130px"></v-img>
+              <!-- <v-card-title>{{ asin }}</v-card-title> -->
+            </v-card>
+          </v-hover>
         </v-col>
       </v-row>
     </v-container>
@@ -20,10 +27,8 @@
 </style>
 
 <script>
-
 export default {
-  components: {
-  },
+  components: {},
   data: () => ({
     books: [
       {
