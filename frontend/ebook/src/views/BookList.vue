@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-dialog v-model="dialog" min-height="900" width="1700">
+      <Book/>
+    </v-dialog>
     <v-container>
       <v-row>
         <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
@@ -27,9 +30,14 @@
 </style>
 
 <script>
+import Book from"../components/Book.vue"
+
 export default {
-  components: {},
+  components: {
+    Book
+  },
   data: () => ({
+    dialog: false,
     books: [
       {
         asin: "B000FA5NSO",
