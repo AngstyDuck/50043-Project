@@ -5,11 +5,6 @@ from time import sleep
 import sys
 
 
-'''
-Setup for mongolog
-1.
-'''
-
 sys.path.insert(1,'./app')
 from mongolog.handlers import MongoHandler
 
