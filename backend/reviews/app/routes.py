@@ -1,5 +1,5 @@
 from flask import render_template, make_response,jsonify
-from app import app, models, mongo, logActivity
+from app import app, models, mongo
 import logging
 from time import sleep
 import sys

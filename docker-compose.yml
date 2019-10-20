@@ -4,10 +4,10 @@ services:
     build: .
     links:
       - mysql
-      - mongodb
+      - mongo
     ports:
       - "5000:5000"
-    command: flask run
+    command: python -u reviews.py
   mysql:
     image: mysql:latest
     restart: always
@@ -22,15 +22,9 @@ services:
       # Password for root access
     volumes:
       - /var/lib/mysql
-  mongodb:
-    image: mongo:3.0.2
+  mongo:
+    image: mongo:latest
+    volumes:
+      - /data/db
     ports:
-      - "32001:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: flaskdb
-      MONGODB_DATA_DIR: /data/db
-      MONDODB_LOG_DIR: /dev/null
-    # volumes:
-    #   - mongodbdata:/data/db
+      - "4545:27017"
