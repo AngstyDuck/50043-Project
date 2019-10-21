@@ -25,6 +25,6 @@ services:
   mongo:
     image: mongo:latest
     volumes:
-      - /data/db
+      - /var/lib/mongodb
     ports:
       - "4545:27017"

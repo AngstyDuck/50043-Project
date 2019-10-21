@@ -19,7 +19,7 @@ from pymongo import MongoClient
 from pymongo import ASCENDING
 import datetime
 
-client = MongoClient()
+client = MongoClient('mongo',27017)
 db = client.logs
 log_collection = db.logs
 log_collection.ensure_index([("timestamp", ASCENDING)])
