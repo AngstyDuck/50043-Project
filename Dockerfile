@@ -14,6 +14,7 @@ WORKDIR /app/backend
 # Install any needed packages specified in requirements.txt
 COPY installation_files/requirements.txt /app/backend
 RUN pip install -r requirements.txt
+RUN pip install PyMySQL[rsa]
 
 
 WORKDIR /app/backend/reviews
