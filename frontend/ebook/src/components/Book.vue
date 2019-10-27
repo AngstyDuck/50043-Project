@@ -13,12 +13,52 @@
         <v-col cols="12" md="8">
           <div class="title">{{book.asin}}</div>
           <v-divider></v-divider>
-          <div class="comments">
+          <div v-for="(category, index) in book.categories" :key="index">
             <div
-              class="comment"
-              v-for="(review, index) in reviews"
-              :key="index"
-            >{{review.reviewerName}}</div>
+              class="category"
+              v-for="(innerCat, index2) in category"
+              :key="index2"
+            >{{innerCat}} {{index2 < category.length-1 ? " ➤ " : ""}}</div>
+          </div>
+        </v-col>
+        <v-col>
+          <div class="comments">
+            <v-container class="comment" v-for="(review, index) in reviews" :key="index">
+              <v-row no-gutters>
+                <v-col>
+                  <v-icon>person</v-icon>
+                  {{review.reviewerName}}
+                </v-col>
+              </v-row>
+              <v-row no-gutters>{{review.reviewTime}}</v-row>
+              <v-row no-gutters>
+                <star-rating :star-size="20" read-only :rating="review.overall"></star-rating>
+              </v-row>
+              <v-row no-gutters>
+                <b>{{review.summary}}</b>
+              </v-row>
+              <v-row no-gutters>{{review.reviewText}}</v-row>
+              <v-spacer />
+              <v-row>
+                <v-divider></v-divider>
+              </v-row>
+              <v-row no-gutters>
+                <v-col cols="12" md="2">
+                  <div
+                    v-if="review.helpful[0] > 0"
+                  >{{review.helpful[0]}} {{review.helpful[0]==1 ? "person" : "people"}} found this helpful</div>
+                </v-col>
+                <v-col cols="12" md="2">
+                  <v-btn
+                    depressed
+                    rounded
+                    right
+                    :disabled="review.helpfulDisable"
+                    v-on:click="helpfulButton(index)"
+                  >Helpful</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
           </div>
         </v-col>
       </v-row>
@@ -27,28 +67,145 @@
 </template>
 
 <style scoped>
+.category {
+  display: inline-block;
+}
+.comments {
+  height: 50%;
+  overflow-y: auto;
+}
+
 .comment {
   background-color: brown;
 }
 </style>
 
 <script>
+import StarRating from "vue-star-rating";
 export default {
-  components: {},
+  components: {
+    StarRating
+  },
   data: () => ({
     book: {
-      asin: "B000FA5NSO",
+      asin: "B002HWRR78",
+      price: 0.99,
       imUrl:
-        "http://ecx.images-amazon.com/images/I/51N45B6jq8L._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
-      related: { also_viewed: ["B000FBF81K", "B000FA5KKA"] },
+        "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
+      related: {
+        also_bought: [
+          "B0070YQGSO",
+          "B005O54264",
+          "B008SIT1P6",
+          "B00ATFFVMS",
+          "B00272NHLS",
+          "B003GIRQD2",
+          "B00DP7HXXC",
+          "B00IPXYZSC",
+          "B005JFRQ80",
+          "B00IU8I3XU",
+          "B00B62F3VM",
+          "B0026RIIP4",
+          "B002CZQL6I",
+          "B00D8HIQRG",
+          "B00BE7XCUS",
+          "B0046A9SIK",
+          "B00B7WPAMI",
+          "B009D6P0MK",
+          "B00DJDZMXK",
+          "B0053YQAKW",
+          "B00ET69DE0",
+          "B00BB2DUI0",
+          "B003T9V9A4",
+          "B00H59NEAW",
+          "B00B4ZPIUC",
+          "B00IKXWCGO",
+          "B002CQU5LY",
+          "B00BZHBO02",
+          "B00IPWTP60",
+          "B008CVWOBM",
+          "B005FY66EA",
+          "B002CQU5J6",
+          "B00AW5BYOY",
+          "B00IMROX88",
+          "B0083Q18B8",
+          "B00F8F7PU0",
+          "B00B5L0S14",
+          "B009VLZB6C",
+          "B00BKFX6ZA",
+          "B00635I88C",
+          "B006WQ8J2W",
+          "B00BNMX7AY",
+          "B00AIWQ400",
+          "B0080827BY",
+          "B003V8BSA4",
+          "B00BDOKY44",
+          "B00B3MKN1A",
+          "B007HEGXSK",
+          "B00AJVBAMM",
+          "B007T9WU9Y",
+          "B00BWX099Q",
+          "B00BXPNTU4",
+          "B002JM2C4E",
+          "B00G9GOOF6",
+          "B000FCKGLG",
+          "B004YTPAP8",
+          "B006X3889S",
+          "B003PDN61O",
+          "B003DTMU3A",
+          "B00B1WRQYE",
+          "B00BSFCO8C",
+          "B003O2SHDS",
+          "B00B7RAKDC",
+          "B004XD99XE",
+          "B006WQFDRG",
+          "B00DJUA972",
+          "B000FBFMZC",
+          "B00BYJJNZ4",
+          "B0072V4BE6",
+          "B00AWFKQVG",
+          "B003HKRBYI",
+          "B00B7A188K",
+          "B00ALKPW4S",
+          "B00B40DYMQ",
+          "B004Z4IYK0",
+          "B009HX6M30",
+          "B002FSTJBQ",
+          "B003U2TEJI",
+          "B003J359J2",
+          "B007ZDMP76",
+          "B002Y5VSUU",
+          "B003EV6Q5U",
+          "B008XL1BQU",
+          "B008Y1CNDE",
+          "B00AA19M3A",
+          "B004L62D40",
+          "B007R6BN1K",
+          "B003DXAB64",
+          "B009AE7BI6",
+          "B004JHYTZ2"
+        ],
+        buy_after_viewing: [
+          "B00ATFFVMS",
+          "B003GIRQD2",
+          "B0026RIIP4",
+          "B0070YQGSO"
+        ]
+      },
       categories: [
-        ["Books", "Literature & Fiction"],
-        ["Books", "Science Fiction & Fantasy", "Science Fiction"],
+        ["Books", "Christian Books & Bibles"],
+        ["Books", "Literature & Fiction", "Classics"],
+        [
+          "Kindle Store",
+          "Kindle Short Reads",
+          "One hour (33-43 pages)",
+          "Religion & Spirituality"
+        ],
         [
           "Kindle Store",
           "Kindle eBooks",
-          "Science Fiction & Fantasy",
-          "Science Fiction"
+          "Religion & Spirituality",
+          "Christian Books & Bibles"
         ]
       ]
     },
@@ -63,7 +220,8 @@ export default {
         overall: 5.0,
         summary: "Nice vintage story",
         unixReviewTime: 1399248000,
-        reviewTime: "05 5, 2014"
+        reviewTime: "05 5, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "AN0N05A9LIJEQ",
@@ -75,7 +233,8 @@ export default {
         overall: 4.0,
         summary: "Different...",
         unixReviewTime: 1388966400,
-        reviewTime: "01 6, 2014"
+        reviewTime: "01 6, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "A795DMNCJILA6",
@@ -87,7 +246,8 @@ export default {
         overall: 4.0,
         summary: "Oldie",
         unixReviewTime: 1396569600,
-        reviewTime: "04 4, 2014"
+        reviewTime: "04 4, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "A1FV0SX13TWVXQ",
@@ -99,7 +259,8 @@ export default {
         overall: 5.0,
         summary: "I really liked it.",
         unixReviewTime: 1392768000,
-        reviewTime: "02 19, 2014"
+        reviewTime: "02 19, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "A3SPTOKDG7WBLN",
@@ -111,7 +272,8 @@ export default {
         overall: 4.0,
         summary: "Period Mystery",
         unixReviewTime: 1395187200,
-        reviewTime: "03 19, 2014"
+        reviewTime: "03 19, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "A1RK2OCZDSGC6R",
@@ -123,7 +285,8 @@ export default {
         overall: 4.0,
         summary: "Review",
         unixReviewTime: 1401062400,
-        reviewTime: "05 26, 2014"
+        reviewTime: "05 26, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "A2HSAKHC3IBRE6",
@@ -135,7 +298,8 @@ export default {
         overall: 4.0,
         summary: "Nice old fashioned story",
         unixReviewTime: 1402358400,
-        reviewTime: "06 10, 2014"
+        reviewTime: "06 10, 2014",
+        helpfulDisable: false
       },
       {
         reviewerID: "A3DE6XGZ2EPADS",
@@ -147,9 +311,24 @@ export default {
         overall: 4.0,
         summary: "Enjoyable reading and reminding the old times",
         unixReviewTime: 1395446400,
-        reviewTime: "03 22, 2014"
+        reviewTime: "03 22, 2014",
+        helpfulDisable: false
       }
     ]
-  })
+  }),
+  methods: {
+    helpfulButton(index) {
+      // const Vue = window.vue;
+      this.$set(
+        this.reviews[index].helpful,
+        0,
+        this.reviews[index].helpful[0] + 1
+      );
+      this.reviews[index].helpful[1]++;
+      this.reviews[index].helpfulDisable = true;
+      // Send POST to backend
+      // console.log(this.reviews);
+    }
+  }
 };
 </script>
