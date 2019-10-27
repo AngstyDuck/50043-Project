@@ -9,11 +9,18 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-img :src="book.imUrl" min-height="130px"></v-img>
+          <div class="pricing">
+            <div v-if="book.price">
+              Price:
+              <b>${{book.price}}</b>
+            </div>
+            <div v-else>Price is not in database</div>
+          </div>
         </v-col>
         <v-col cols="12" md="8">
           <div class="title">{{book.asin}}</div>
           <v-divider></v-divider>
-          <div>Categories</div>
+          <div class="subtitle">Categories</div>
           <div v-for="(category, index) in book.categories" :key="index">
             <div
               class="category"
@@ -23,6 +30,7 @@
           </div>
           <div>
             <v-container>
+              <v-row class="subtitle">Related books</v-row>
               <v-row>
                 <v-col cols="12" md="3" v-for="(related, index) in pagedRelatedBooks" :key="index">
                   <v-img :src="related.imUrl"></v-img>
@@ -33,6 +41,13 @@
           </div>
         </v-col>
         <v-col>
+          <div class="subtitle">Comments</div>
+          <div class="average-title">
+            Average rating:
+            <star-rating :inline="true" :increment="0.1" :star-size="25" read-only :rating="book.averageRating"></star-rating>
+          </div>
+
+          <v-divider></v-divider>
           <div class="comments">
             <v-container class="comment" v-for="(review, index) in reviews" :key="index">
               <v-row no-gutters>
@@ -81,6 +96,16 @@
 .category {
   display: inline-block;
 }
+
+.subtitle {
+  font-size: 2.2rem;
+  font-weight: 450;
+}
+
+.average-title {
+  font-size: 1.8rem;
+}
+
 .comments {
   height: 50%;
   overflow-y: auto;
@@ -88,6 +113,11 @@
 
 .comment {
   background-color: brown;
+}
+
+.pricing {
+  font-size: 1.7rem;
+  text-align: center;
 }
 </style>
 
@@ -113,6 +143,7 @@ export default {
     book: {
       asin: "B002HWRR78",
       price: 0.99,
+      averageRating: 4.6,
       imUrl:
         "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
       related: {
