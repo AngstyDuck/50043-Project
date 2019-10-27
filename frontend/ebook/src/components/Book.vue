@@ -8,17 +8,28 @@
     <v-container class="grey darken-3">
       <v-row>
         <v-col cols="12" md="4">
-          <v-img :src="book.imUrl" aspec-ratio="1.2" min-height="130px"></v-img>
+          <v-img :src="book.imUrl" min-height="130px"></v-img>
         </v-col>
         <v-col cols="12" md="8">
           <div class="title">{{book.asin}}</div>
           <v-divider></v-divider>
+          <div>Categories</div>
           <div v-for="(category, index) in book.categories" :key="index">
             <div
               class="category"
               v-for="(innerCat, index2) in category"
               :key="index2"
             >{{innerCat}} {{index2 < category.length-1 ? " ➤ " : ""}}</div>
+          </div>
+          <div>
+            <v-container>
+              <v-row>
+                <v-col cols="12" md="3" v-for="(related, index) in pagedRelatedBooks" :key="index">
+                  <v-img :src="related.imUrl"></v-img>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-pagination v-model="page" :length="parseInt(book.related.also_bought.length/4) +1"></v-pagination>
           </div>
         </v-col>
         <v-col>
@@ -86,7 +97,19 @@ export default {
   components: {
     StarRating
   },
+  computed: {
+    pagedRelatedBooks() {
+      console.log(this.book.related.also_bought.length);
+      return this.book.related.also_bought.slice(
+        (this.page - 1) * 4 > this.book.related.also_bought.length
+          ? this.book.related.also_bought.length
+          : (this.page - 1) * 4,
+        this.page * 4
+      );
+    }
+  },
   data: () => ({
+    page: 1,
     book: {
       asin: "B002HWRR78",
       price: 0.99,
@@ -94,96 +117,196 @@ export default {
         "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
       related: {
         also_bought: [
-          "B0070YQGSO",
-          "B005O54264",
-          "B008SIT1P6",
-          "B00ATFFVMS",
-          "B00272NHLS",
-          "B003GIRQD2",
-          "B00DP7HXXC",
-          "B00IPXYZSC",
-          "B005JFRQ80",
-          "B00IU8I3XU",
-          "B00B62F3VM",
-          "B0026RIIP4",
-          "B002CZQL6I",
-          "B00D8HIQRG",
-          "B00BE7XCUS",
-          "B0046A9SIK",
-          "B00B7WPAMI",
-          "B009D6P0MK",
-          "B00DJDZMXK",
-          "B0053YQAKW",
-          "B00ET69DE0",
-          "B00BB2DUI0",
-          "B003T9V9A4",
-          "B00H59NEAW",
-          "B00B4ZPIUC",
-          "B00IKXWCGO",
-          "B002CQU5LY",
-          "B00BZHBO02",
-          "B00IPWTP60",
-          "B008CVWOBM",
-          "B005FY66EA",
-          "B002CQU5J6",
-          "B00AW5BYOY",
-          "B00IMROX88",
-          "B0083Q18B8",
-          "B00F8F7PU0",
-          "B00B5L0S14",
-          "B009VLZB6C",
-          "B00BKFX6ZA",
-          "B00635I88C",
-          "B006WQ8J2W",
-          "B00BNMX7AY",
-          "B00AIWQ400",
-          "B0080827BY",
-          "B003V8BSA4",
-          "B00BDOKY44",
-          "B00B3MKN1A",
-          "B007HEGXSK",
-          "B00AJVBAMM",
-          "B007T9WU9Y",
-          "B00BWX099Q",
-          "B00BXPNTU4",
-          "B002JM2C4E",
-          "B00G9GOOF6",
-          "B000FCKGLG",
-          "B004YTPAP8",
-          "B006X3889S",
-          "B003PDN61O",
-          "B003DTMU3A",
-          "B00B1WRQYE",
-          "B00BSFCO8C",
-          "B003O2SHDS",
-          "B00B7RAKDC",
-          "B004XD99XE",
-          "B006WQFDRG",
-          "B00DJUA972",
-          "B000FBFMZC",
-          "B00BYJJNZ4",
-          "B0072V4BE6",
-          "B00AWFKQVG",
-          "B003HKRBYI",
-          "B00B7A188K",
-          "B00ALKPW4S",
-          "B00B40DYMQ",
-          "B004Z4IYK0",
-          "B009HX6M30",
-          "B002FSTJBQ",
-          "B003U2TEJI",
-          "B003J359J2",
-          "B007ZDMP76",
-          "B002Y5VSUU",
-          "B003EV6Q5U",
-          "B008XL1BQU",
-          "B008Y1CNDE",
-          "B00AA19M3A",
-          "B004L62D40",
-          "B007R6BN1K",
-          "B003DXAB64",
-          "B009AE7BI6",
-          "B004JHYTZ2"
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          },
+          {
+            asin: "B0070YQGSO",
+            imUrl:
+              "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+          }
         ],
         buy_after_viewing: [
           "B00ATFFVMS",

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-dialog v-model="dialog" min-height="900" width="1700">
-      <Book/>
+      <Book />
     </v-dialog>
     <v-container>
       <v-row>
@@ -13,7 +13,7 @@
               class="mx-auto"
               max-width="344"
             >
-              <v-img :src="book.imUrl" aspec-ratio="1.2" min-height="130px"></v-img>
+              <v-img :src="book.imUrl" min-height="130px"></v-img>
               <!-- <v-card-title>{{ asin }}</v-card-title> -->
             </v-card>
           </v-hover>
@@ -30,7 +30,7 @@
 </style>
 
 <script>
-import Book from"../components/Book.vue"
+import Book from "../components/Book.vue";
 
 export default {
   components: {
