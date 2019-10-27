@@ -18,7 +18,7 @@
           </div>
         </v-col>
         <v-col cols="12" md="8">
-          <div class="title">{{book.asin}}</div>
+          <div class="book-title">{{book.asin}}</div>
           <v-divider></v-divider>
           <div class="subtitle">Categories</div>
           <div v-for="(category, index) in book.categories" :key="index">
@@ -44,7 +44,13 @@
           <div class="subtitle">Comments</div>
           <div class="average-title">
             Average rating:
-            <star-rating :inline="true" :increment="0.1" :star-size="25" read-only :rating="book.averageRating"></star-rating>
+            <star-rating
+              :inline="true"
+              :increment="0.1"
+              :star-size="25"
+              read-only
+              :rating="book.averageRating"
+            ></star-rating>
           </div>
 
           <v-divider></v-divider>
@@ -95,6 +101,11 @@
 <style scoped>
 .category {
   display: inline-block;
+}
+
+.book-title {
+  font-size: 2.4rem;
+  font-weight: 500;
 }
 
 .subtitle {
