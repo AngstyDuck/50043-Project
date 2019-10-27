@@ -37,7 +37,7 @@ export default {
     Book
   },
   data: () => ({
-    dialog: false,
+    dialog: true,
     books: [
       {
         asin: "B000FA5NSO",
