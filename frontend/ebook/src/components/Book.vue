@@ -55,39 +55,49 @@
 
           <v-divider></v-divider>
           <div class="comments">
-            <v-container class="comment" v-for="(review, index) in reviews" :key="index">
-              <v-row no-gutters>
-                <v-col>
-                  <v-icon>person</v-icon>
-                  {{review.reviewerName}}
-                </v-col>
-              </v-row>
-              <v-row no-gutters>{{review.reviewTime}}</v-row>
-              <v-row no-gutters>
-                <star-rating :star-size="20" read-only :rating="review.overall"></star-rating>
-              </v-row>
-              <v-row no-gutters>
-                <b>{{review.summary}}</b>
-              </v-row>
-              <v-row no-gutters>{{review.reviewText}}</v-row>
-              <v-spacer />
-              <v-row>
-                <v-divider></v-divider>
-              </v-row>
-              <v-row no-gutters>
-                <v-col cols="12" md="2">
-                  <div
-                    v-if="review.helpful[0] > 0"
-                  >{{review.helpful[0]}} {{review.helpful[0]==1 ? "person" : "people"}} found this helpful</div>
-                </v-col>
-                <v-col cols="12" md="2">
-                  <v-btn
-                    depressed
-                    rounded
-                    right
-                    :disabled="review.helpfulDisable"
-                    v-on:click="helpfulButton(index)"
-                  >Helpful</v-btn>
+            <v-container>
+              <v-row dense v-for="(review, index) in reviews" :key="index">
+                <v-col cols="12">
+                  <v-card color="#385F73" class="comment">
+                    <v-container>
+                      <v-row no-gutters>
+                        <v-col>
+                          <v-icon>person</v-icon>
+                          {{review.reviewerName}}
+                        </v-col>
+                      </v-row>
+                      <v-row no-gutters>{{review.reviewTime}}</v-row>
+                      <v-row no-gutters>
+                        <star-rating :star-size="20" read-only :rating="review.overall"></star-rating>
+                      </v-row>
+                      <v-row no-gutters>
+                        <b>{{review.summary}}</b>
+                      </v-row>
+                      <v-row no-gutters>{{review.reviewText}}</v-row>
+                      <v-spacer />
+                      <v-row>
+                        <v-divider></v-divider>
+                      </v-row>
+                      <v-row no-gutters>
+                        <v-col cols="12" md="2">
+                          <div
+                            v-if="review.helpful[0] > 0"
+                          >{{review.helpful[0]}} {{review.helpful[0]==1 ? "person" : "people"}} found this helpful</div>
+                        </v-col>
+                        <v-col cols="12" md="2">
+                          <v-card-actions>
+                            <v-btn
+                              depressed
+                              rounded
+                              right
+                              :disabled="review.helpfulDisable"
+                              v-on:click="helpfulButton(index)"
+                            >Helpful</v-btn>
+                          </v-card-actions>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card>
                 </v-col>
               </v-row>
             </v-container>
@@ -118,8 +128,8 @@
 }
 
 .comments {
-  height: 50%;
-  overflow-y: auto;
+  /* height: 50%;
+  overflow-y: auto; */
 }
 
 .comment {
