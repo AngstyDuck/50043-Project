@@ -74,6 +74,9 @@ export default {
   },
   mounted() {
     this.getBooks();
+    EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
+      this.bookDialog = false;
+    });
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar dark color="primary">
-      <v-btn icon dark @click="dialog = false">
+      <v-btn icon dark @click="closeBookDialog()">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
@@ -301,6 +301,9 @@ export default {
     });
   },
   methods: {
+    closeBookDialog() {
+      EventBus.$emit("CLOSE_BOOK_DIALOG", "");
+    },
     helpfulButton(index) {
       this.$set(
         this.reviews[index].helpful,
