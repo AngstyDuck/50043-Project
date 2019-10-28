@@ -334,10 +334,14 @@ export default {
       this.reviewPost.reviewerName = "";
     },
     postNewReview() {
-      const payload = this.reviewPost;
+      var payload = this.reviewPost;
+      payload.asin = this.book.asin;
+      console.log(payload);
       this.$store.dispatch("store/post_new_review", payload).then(response => {
         if (response != 0) {
+          this.loadingReviewList = true;
           this.cancelReview();
+          this.getReviewList(this.book.asin);
         } else {
           console.log("Error posting review");
         }

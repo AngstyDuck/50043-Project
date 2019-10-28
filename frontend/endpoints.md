@@ -1,5 +1,7 @@
 ### GET /book_list
 
+Do NOT implement this one yet, may add more params later
+
 example:
 ```json
 {
@@ -91,8 +93,8 @@ example:
 }
 ```
 
-### GET review_list/{{ASIN_NUMBER}}/
-e.g. review_list/B002HWRKES/
+### GET review_list/{{ASIN_NUMBER}}
+e.g. review_list/B002HWRKES
 ```json
 {
 "reviews":[
@@ -186,3 +188,33 @@ e.g. review_list/B002HWRKES/
       }
     ]}
 ```
+### PUT /helpful_review
+Example body from frontend
+```json
+{
+ "reviewerID": "A3DE6XGZ2EPADS",
+ "asin": "B000F83SZQ",
+ "reviewerName": "WPY"
+}
+```
+Feature:
+To modify that particular reviewer's `"helpful"` array. Basically,
+```c
+helpful[0]++;
+helpful[1]++;
+```
+Add 'one' to both sections of the array.
+Only a return status of 200 is needed. The frontend will ignore any body elements.
+
+### POST /post_new_review
+Example body from frontend
+```json
+{
+"overall":  4.0,
+"summary":  "Very good book",
+"reviewText":  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum libero mollis velit venenatis porta et in odio. In ante tortor, eleifend at fringilla id, semper et ipsum. Integer vitae nisl eu urna cursus tincidunt id aliquam turpis. Suspendisse id tempus nunc. Quisque pharetra massa nisl, eu consectetur risus lacinia sit amet. Donec cursus massa ac pellentesque vulputate.",
+"reviewerName":  "verygoood mr reviewer"
+}
+```
+Only a return status of 200 is needed for now.
+Future expansion could include a check for usernames, and see if anyone with the same username has posted before.
