@@ -1,7 +1,7 @@
 import axiosInit from "axios";
 
 const axios = axiosInit.create({
-  baseURL: "https://308510e0-2db2-4377-a990-dc2340af238b.mock.pstmn.io",
+  baseURL: "https://306a7002-ca11-49c0-87a9-ab04c51ea4ba.mock.pstmn.io",
   headers: {
     "Content-Type": "application/json"
   }
@@ -20,7 +20,6 @@ const actions = {
         if (response.status === 200) {
           return response.data;
         } else {
-          deleteAllCookies();
           return 0;
         }
       })
