@@ -5,7 +5,11 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-container class="grey darken-3">
+    <div class="loading" v-if="fullLoading">
+      <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
+      <div>Loading book...</div>
+    </div>
+    <v-container class="grey darken-3" v-else>
       <v-row>
         <v-col cols="12" md="4">
           <v-img :src="book.imUrl" min-height="130px"></v-img>
@@ -34,7 +38,10 @@
               <v-row class="subtitle">Related books</v-row>
               <v-row>
                 <v-col cols="12" md="3" v-for="(related, index) in pagedRelatedBooks" :key="index">
-                  <v-img :src="related.imUrl"></v-img>
+                  <v-card @click="changeBook(related.asin)" class="mx-auto">
+                    <v-img :src="related.imUrl"></v-img>
+                    <!-- <v-card-title>{{ asin }}</v-card-title> -->
+                  </v-card>
                 </v-col>
               </v-row>
             </v-container>
@@ -130,17 +137,17 @@
           </div>
         </v-col>
       </v-row>
-    </v-container>
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="3" />
-        <v-col cols="12" md="6">
-          <v-btn block x-large color="blue darken-1" @click="postReviewDialog()">
-            <v-icon left>create</v-icon>Post a review
-          </v-btn>
-        </v-col>
-        <v-col cols="12" md="3" />
-      </v-row>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="3" />
+          <v-col cols="12" md="6">
+            <v-btn block x-large color="blue darken-1" @click="postReviewDialog()">
+              <v-icon left>create</v-icon>Post a review
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="3" />
+        </v-row>
+      </v-container>
     </v-container>
     <div>
       <v-dialog v-model="reviewDialog" persistent max-width="600px">
@@ -192,7 +199,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="closeDialog = true">Cancel</v-btn>
-            <v-btn color="blue darken-1" @click="dialog = false">Post Review</v-btn>
+            <v-btn color="blue darken-1" @click="postNewReview()">Post Review</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -246,7 +253,6 @@
   text-align: center;
 }
 .loading {
-  /* position: absolute; */
   left: 40%;
   text-align: center;
   padding-top: 20px;
@@ -284,6 +290,7 @@ export default {
     reviewDialog: false,
     closeDialog: false,
     loadingReviewList: true,
+    fullLoading: false,
     reviewPost: {
       overall: 0.0,
       summary: "",
@@ -304,10 +311,35 @@ export default {
     closeBookDialog() {
       EventBus.$emit("CLOSE_BOOK_DIALOG", "");
     },
+    changeBook(asin) {
+      this.fullLoading = true;
+      const payload = { asin: asin };
+      this.$store.dispatch("store/single_book", payload).then(response => {
+        if (response != 0) {
+          EventBus.$emit("CHANGE_BOOK", response.book);
+          this.fullLoading = false;
+        } else {
+          console.log("Error retrieving single book");
+        }
+      });
+    },
     helpfulButton(review) {
       this.$set(review.helpful, 0, review.helpful[0] + 1);
       review.helpful[1]++;
       review.helpfulDisable = true;
+      const payload = {
+        asin: review.asin,
+        reviewerName: review.reviewerName,
+        reviewerID: review.reviewerID
+      };
+      this.$store.dispatch("store/helpful_review", payload).then(response => {
+        if (response != 0) {
+          this.reviews = response.reviews;
+          this.loadingReviewList = false;
+        } else {
+          console.log("Error marking review as helpful");
+        }
+      });
     },
     postReviewDialog() {
       this.reviewDialog = true;
@@ -319,6 +351,20 @@ export default {
       this.reviewPost.summary = "";
       this.reviewPost.reviewText = "";
       this.reviewPost.reviewerName = "";
+    },
+    postNewReview() {
+      var payload = this.reviewPost;
+      payload.asin = this.book.asin;
+      console.log(payload);
+      this.$store.dispatch("store/post_new_review", payload).then(response => {
+        if (response != 0) {
+          this.loadingReviewList = true;
+          this.cancelReview();
+          this.getReviewList(this.book.asin);
+        } else {
+          console.log("Error posting review");
+        }
+      });
     },
     getReviewList(asin) {
       this.$store

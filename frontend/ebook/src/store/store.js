@@ -1,7 +1,7 @@
 import axiosInit from "axios";
 
 const axios = axiosInit.create({
-  baseURL: "https://c821b069-f98d-4517-a010-81d325552809.mock.pstmn.io",
+  baseURL: "https://8ae48f56-65d6-4ded-85b8-6519961968ac.mock.pstmn.io",
   headers: {
     "Content-Type": "application/json"
   }
@@ -27,13 +27,58 @@ const actions = {
         return 0;
       });
   },
-  review_list({ commit }, payload) {
+  single_book({ commit }, payload) {
     return axios
-      .get("/book_list/" + payload.asin, payload)
+      .get("/single_book/" + payload.asin, payload)
       .then(response => {
         console.log(response);
         if (response.status === 200) {
           return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  review_list({ commit }, payload) {
+    return axios
+      .get("/review_list/" + payload.asin, payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  helpful_review({ commit }, payload) {
+    return axios
+      .put("/helpful_review", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  post_new_review({ commit }, payload) {
+    return axios
+      .post("/post_new_review", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return 1;
         } else {
           return 0;
         }

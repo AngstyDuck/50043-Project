@@ -1,5 +1,7 @@
 ### GET /book_list
 
+Do NOT implement this one yet, may add more params later
+
 example:
 ```json
 {
@@ -91,8 +93,8 @@ example:
 }
 ```
 
-### GET review_list/{{ASIN_NUMBER}}/
-e.g. review_list/B002HWRKES/
+### GET review_list/{{ASIN_NUMBER}}
+e.g. review_list/B002HWRKES
 ```json
 {
 "reviews":[
@@ -185,4 +187,78 @@ e.g. review_list/B002HWRKES/
         "reviewTime": "June 8, 2019"
       }
     ]}
+```
+### PUT /helpful_review
+Example body from frontend
+```json
+{
+ "reviewerID": "A3DE6XGZ2EPADS",
+ "asin": "B000F83SZQ",
+ "reviewerName": "WPY"
+}
+```
+Feature:
+To modify that particular reviewer's `"helpful"` array. Basically,
+```c
+helpful[0]++;
+helpful[1]++;
+```
+Add 'one' to both sections of the array.
+Only a return status of 200 is needed. The frontend will ignore any body elements.
+
+### POST /post_new_review
+Example body from frontend
+```json
+{
+"overall":  4.0,
+"summary":  "Very good book",
+"reviewText":  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum libero mollis velit venenatis porta et in odio. In ante tortor, eleifend at fringilla id, semper et ipsum. Integer vitae nisl eu urna cursus tincidunt id aliquam turpis. Suspendisse id tempus nunc. Quisque pharetra massa nisl, eu consectetur risus lacinia sit amet. Donec cursus massa ac pellentesque vulputate.",
+"reviewerName":  "verygoood mr reviewer"
+}
+```
+Only a return status of 200 is needed for now.
+Future expansion could include a check for usernames, and see if anyone with the same username has posted before.
+
+### GET review_list/{{ASIN_NUMBER}}/
+e.g. /single_book/B0070YQGSO
+```json
+{
+	"book": {
+		"asin": "B002HWRR78",
+		"price": 0.99,
+		"averageRating": 4.2,
+		"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
+		"related": [{
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}],
+		"categories": [
+			["Books", "Christian Books & Bibles"],
+			["Books", "Literature & Fiction", "Classics"],
+			["Kindle Store", "Kindle Short Reads", "One hour (33-43 pages)", "Religion & Spirituality"],
+			["Kindle Store", "Kindle eBooks", "Religion & Spirituality", "Christian Books & Bibles"]
+		]
+	}
+}
 ```
