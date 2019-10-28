@@ -173,8 +173,21 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+            <v-btn color="blue darken-1" text @click="closeDialog = true">Cancel</v-btn>
             <v-btn color="blue darken-1" @click="dialog = false">Post Review</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="closeDialog" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Cancel review post?</v-card-title>
+
+          <v-card-text>Any typed data will be erased. Do you wish to cancel the post?</v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="cancelReview()">Yes</v-btn>
+            <v-btn color="blue darken-1" @click="closeDialog = false">No</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -236,6 +249,7 @@ export default {
   data: () => ({
     page: 1,
     reviewDialog: false,
+    closeDialog: false,
     book: {
       asin: "B002HWRR78",
       price: 0.99,
@@ -578,6 +592,10 @@ export default {
     },
     postReviewDialog() {
       this.reviewDialog = true;
+    },
+    cancelReview() {
+      this.reviewDialog = false;
+      this.closeDialog = false;
     }
   }
 };
