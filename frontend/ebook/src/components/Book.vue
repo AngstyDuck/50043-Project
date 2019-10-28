@@ -18,7 +18,8 @@
           </div>
         </v-col>
         <v-col cols="12" md="8">
-          <div class="book-title">{{book.asin}}</div>
+          <div class="book-title" v-if="book.title">{{book.title}}</div>
+          <div class="book-title" v-else>{{book.asin}}</div>
           <v-divider></v-divider>
           <div class="subtitle">Categories</div>
           <div v-for="(category, index) in book.categories" :key="index">
@@ -37,13 +38,23 @@
                 </v-col>
               </v-row>
             </v-container>
-            <v-pagination v-model="page" :length="parseInt(book.related.also_bought.length/4) +1"></v-pagination>
+            <v-pagination v-model="page" :length="parseInt(book.related.length/4) +1"></v-pagination>
           </div>
         </v-col>
         <v-col>
-          <div class="subtitle">Reviews</div>
           <v-container>
-            <v-row>
+            <v-row v-if="book.description">
+              <v-col cols="12">
+                <div class="subtitle">Description</div>
+              </v-col>
+              <v-col cols="12">
+                <div>{{book.description}}</div>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="12">
+                <div class="subtitle">Reviews</div>
+              </v-col>
               <v-col cols="12" md="10">
                 <div class="average-title">
                   Average rating:
@@ -241,15 +252,14 @@ export default {
   computed: {
     pagedRelatedBooks() {
       if (this.book.related) {
-        return this.book.related.also_bought.slice(
-          (this.page - 1) * 4 > this.book.related.also_bought.length
-            ? this.book.related.also_bought.length
+        return this.book.related.slice(
+          (this.page - 1) * 4 > this.book.related.length
+            ? this.book.related.length
             : (this.page - 1) * 4,
           this.page * 4
         );
-      }
-      else {
-        return []
+      } else {
+        return [];
       }
     }
   },
