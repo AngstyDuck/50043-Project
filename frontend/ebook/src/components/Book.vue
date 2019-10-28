@@ -140,7 +140,7 @@
               </v-row>
               <v-row>
                 <v-col cols="12">
-                  <star-rating :star-size="40"></star-rating>
+                  <star-rating :star-size="40" v-model="reviewPost.overall"></star-rating>
                 </v-col>
               </v-row>
               <v-row>
@@ -150,6 +150,7 @@
                     required
                     hint="What's the most important to know?"
                     persistent-hint
+                    v-model="reviewPost.summary"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -158,6 +159,7 @@
                     label="Write your review"
                     hint="What did you like or dislike? Was the book what you expected?"
                     persistent-hint
+                    v-model="reviewPost.reviewText"
                   ></v-textarea>
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -166,6 +168,7 @@
                     required
                     hint="What do you want to be known as?"
                     persistent-hint
+                    v-model="reviewPost.reviewerName"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -250,6 +253,12 @@ export default {
     page: 1,
     reviewDialog: false,
     closeDialog: false,
+    reviewPost: {
+      overall: 0.0,
+      summary: "",
+      reviewText: "",
+      reviewerName: ""
+    },
     book: {
       asin: "B002HWRR78",
       price: 0.99,
@@ -596,6 +605,10 @@ export default {
     cancelReview() {
       this.reviewDialog = false;
       this.closeDialog = false;
+      this.reviewPost.overall = 0.0;
+      this.reviewPost.summary = "";
+      this.reviewPost.reviewText = "";
+      this.reviewPost.reviewerName = "";
     }
   }
 };
