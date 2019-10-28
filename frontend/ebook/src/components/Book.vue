@@ -117,7 +117,7 @@
                               :disabled="review.helpfulDisable"
                               large
                               rounded
-                              v-on:click="helpfulButton(index)"
+                              v-on:click="helpfulButton(review)"
                             >{{review.helpfulDisable?"Thank you":"Helpful"}}</v-btn>
                           </v-card-actions>
                         </v-col>
@@ -304,14 +304,10 @@ export default {
     closeBookDialog() {
       EventBus.$emit("CLOSE_BOOK_DIALOG", "");
     },
-    helpfulButton(index) {
-      this.$set(
-        this.reviews[index].helpful,
-        0,
-        this.reviews[index].helpful[0] + 1
-      );
-      this.reviews[index].helpful[1]++;
-      this.reviews[index].helpfulDisable = true;
+    helpfulButton(review) {
+      this.$set(review.helpful, 0, review.helpful[0] + 1);
+      review.helpful[1]++;
+      review.helpfulDisable = true;
     },
     postReviewDialog() {
       this.reviewDialog = true;
