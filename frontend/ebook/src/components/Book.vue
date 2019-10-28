@@ -308,6 +308,21 @@ export default {
       this.$set(review.helpful, 0, review.helpful[0] + 1);
       review.helpful[1]++;
       review.helpfulDisable = true;
+      const payload = {
+        asin: review.asin,
+        reviewerName: review.reviewerName,
+        reviewerID: review.reviewerID
+      }
+      this.$store
+        .dispatch("store/helpful_review", payload)
+        .then(response => {
+          if (response != 0) {
+            this.reviews = response.reviews;
+            this.loadingReviewList = false;
+          } else {
+            console.log("Error marking review as helpful");
+          }
+        });
     },
     postReviewDialog() {
       this.reviewDialog = true;

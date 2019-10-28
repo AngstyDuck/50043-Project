@@ -29,11 +29,26 @@ const actions = {
   },
   review_list({ commit }, payload) {
     return axios
-      .get("/book_list/" + payload.asin, payload)
+      .get("/review_list/" + payload.asin, payload)
       .then(response => {
         console.log(response);
         if (response.status === 200) {
           return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  helpful_review({ commit }, payload) {
+    return axios
+      .put("/helpful_review", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return 1;
         } else {
           return 0;
         }
