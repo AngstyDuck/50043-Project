@@ -5,7 +5,11 @@
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-container class="grey darken-3">
+    <div class="loading" v-if="fullLoading">
+      <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
+      <div>Loading book...</div>
+    </div>
+    <v-container class="grey darken-3" v-else>
       <v-row>
         <v-col cols="12" md="4">
           <v-img :src="book.imUrl" min-height="130px"></v-img>
@@ -34,10 +38,7 @@
               <v-row class="subtitle">Related books</v-row>
               <v-row>
                 <v-col cols="12" md="3" v-for="(related, index) in pagedRelatedBooks" :key="index">
-                  <v-card
-                    @click="changeBook(related.asin)"
-                    class="mx-auto"
-                  >
+                  <v-card @click="changeBook(related.asin)" class="mx-auto">
                     <v-img :src="related.imUrl"></v-img>
                     <!-- <v-card-title>{{ asin }}</v-card-title> -->
                   </v-card>
@@ -136,17 +137,17 @@
           </div>
         </v-col>
       </v-row>
-    </v-container>
-    <v-container>
-      <v-row>
-        <v-col cols="12" md="3" />
-        <v-col cols="12" md="6">
-          <v-btn block x-large color="blue darken-1" @click="postReviewDialog()">
-            <v-icon left>create</v-icon>Post a review
-          </v-btn>
-        </v-col>
-        <v-col cols="12" md="3" />
-      </v-row>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="3" />
+          <v-col cols="12" md="6">
+            <v-btn block x-large color="blue darken-1" @click="postReviewDialog()">
+              <v-icon left>create</v-icon>Post a review
+            </v-btn>
+          </v-col>
+          <v-col cols="12" md="3" />
+        </v-row>
+      </v-container>
     </v-container>
     <div>
       <v-dialog v-model="reviewDialog" persistent max-width="600px">
@@ -252,7 +253,6 @@
   text-align: center;
 }
 .loading {
-  /* position: absolute; */
   left: 40%;
   text-align: center;
   padding-top: 20px;
@@ -313,7 +313,7 @@ export default {
     },
     changeBook(asin) {
       this.fullLoading = true;
-      const payload = {asin: asin}
+      const payload = { asin: asin };
       this.$store.dispatch("store/single_book", payload).then(response => {
         if (response != 0) {
           EventBus.$emit("CHANGE_BOOK", response.book);
