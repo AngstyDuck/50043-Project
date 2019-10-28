@@ -153,6 +153,20 @@ export default {
         ]
       }
     ]
-  })
+  }),
+  methods: {
+    getBooks() {
+      this.$store.dispatch("store/book_list", {}).then(response => {
+        if (response != 0) {
+          this.books = response.books
+        } else {
+          console.log("Error retrieving book_list");
+        }
+      });
+    }
+  },
+  mounted() {
+    this.getBooks();
+  }
 };
 </script>
