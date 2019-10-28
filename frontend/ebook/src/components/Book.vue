@@ -192,7 +192,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="closeDialog = true">Cancel</v-btn>
-            <v-btn color="blue darken-1" @click="dialog = false">Post Review</v-btn>
+            <v-btn color="blue darken-1" @click="postNewReview()">Post Review</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -312,17 +312,15 @@ export default {
         asin: review.asin,
         reviewerName: review.reviewerName,
         reviewerID: review.reviewerID
-      }
-      this.$store
-        .dispatch("store/helpful_review", payload)
-        .then(response => {
-          if (response != 0) {
-            this.reviews = response.reviews;
-            this.loadingReviewList = false;
-          } else {
-            console.log("Error marking review as helpful");
-          }
-        });
+      };
+      this.$store.dispatch("store/helpful_review", payload).then(response => {
+        if (response != 0) {
+          this.reviews = response.reviews;
+          this.loadingReviewList = false;
+        } else {
+          console.log("Error marking review as helpful");
+        }
+      });
     },
     postReviewDialog() {
       this.reviewDialog = true;
@@ -334,6 +332,16 @@ export default {
       this.reviewPost.summary = "";
       this.reviewPost.reviewText = "";
       this.reviewPost.reviewerName = "";
+    },
+    postNewReview() {
+      const payload = this.reviewPost;
+      this.$store.dispatch("store/post_new_review", payload).then(response => {
+        if (response != 0) {
+          this.cancelReview();
+        } else {
+          console.log("Error posting review");
+        }
+      });
     },
     getReviewList(asin) {
       this.$store

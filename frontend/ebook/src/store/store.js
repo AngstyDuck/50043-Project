@@ -56,6 +56,21 @@ const actions = {
       .catch(() => {
         return 0;
       });
+  },
+  post_new_review({ commit }, payload) {
+    return axios
+      .post("/post_new_review", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
   }
 };
 
