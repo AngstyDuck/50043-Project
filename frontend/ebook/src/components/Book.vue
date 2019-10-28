@@ -42,17 +42,27 @@
         </v-col>
         <v-col>
           <div class="subtitle">Reviews</div>
-          <div class="average-title">
-            Average rating:
-            <star-rating
-              :inline="true"
-              :increment="0.1"
-              :star-size="25"
-              read-only
-              :rating="book.averageRating"
-            ></star-rating>
-          </div>
-
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="10">
+                <div class="average-title">
+                  Average rating:
+                  <star-rating
+                    :inline="true"
+                    :increment="0.1"
+                    :star-size="25"
+                    read-only
+                    :rating="book.averageRating"
+                  ></star-rating>
+                </div>
+              </v-col>
+              <v-col cols="12" md="2">
+                <v-btn color="blue darken-1" @click="postReviewDialog()">
+                  <v-icon left>create</v-icon>Post a review
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
           <v-divider></v-divider>
           <div class="comments">
             <v-container>
@@ -106,8 +116,19 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="3" />
+        <v-col cols="12" md="6">
+          <v-btn block x-large color="blue darken-1" @click="postReviewDialog()">
+            <v-icon left>create</v-icon>Post a review
+          </v-btn>
+        </v-col>
+        <v-col cols="12" md="3" />
+      </v-row>
+    </v-container>
     <div>
-      <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-dialog v-model="reviewDialog" persistent max-width="600px">
         <v-card>
           <v-card-title>
             <span class="headline">Post a review</span>
@@ -214,7 +235,7 @@ export default {
   },
   data: () => ({
     page: 1,
-    dialog: true,
+    reviewDialog: false,
     book: {
       asin: "B002HWRR78",
       price: 0.99,
@@ -547,7 +568,6 @@ export default {
   }),
   methods: {
     helpfulButton(index) {
-      // const Vue = window.vue;
       this.$set(
         this.reviews[index].helpful,
         0,
@@ -555,8 +575,9 @@ export default {
       );
       this.reviews[index].helpful[1]++;
       this.reviews[index].helpfulDisable = true;
-      // Send POST to backend
-      // console.log(this.reviews);
+    },
+    postReviewDialog() {
+      this.reviewDialog = true;
     }
   }
 };
