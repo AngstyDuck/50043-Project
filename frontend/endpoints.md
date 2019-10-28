@@ -218,3 +218,47 @@ Example body from frontend
 ```
 Only a return status of 200 is needed for now.
 Future expansion could include a check for usernames, and see if anyone with the same username has posted before.
+
+### GET review_list/{{ASIN_NUMBER}}/
+e.g. /single_book/B0070YQGSO
+```json
+{
+	"book": {
+		"asin": "B002HWRR78",
+		"price": 0.99,
+		"averageRating": 4.2,
+		"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
+		"related": [{
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}, {
+			"asin": "B0070YQGSO",
+			"imUrl": "http://ecx.images-amazon.com/images/I/51zBsXMfkFL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg"
+		}],
+		"categories": [
+			["Books", "Christian Books & Bibles"],
+			["Books", "Literature & Fiction", "Classics"],
+			["Kindle Store", "Kindle Short Reads", "One hour (33-43 pages)", "Religion & Spirituality"],
+			["Kindle Store", "Kindle eBooks", "Religion & Spirituality", "Christian Books & Bibles"]
+		]
+	}
+}
+```

@@ -34,7 +34,13 @@
               <v-row class="subtitle">Related books</v-row>
               <v-row>
                 <v-col cols="12" md="3" v-for="(related, index) in pagedRelatedBooks" :key="index">
-                  <v-img :src="related.imUrl"></v-img>
+                  <v-card
+                    @click="changeBook(related.asin)"
+                    class="mx-auto"
+                  >
+                    <v-img :src="related.imUrl"></v-img>
+                    <!-- <v-card-title>{{ asin }}</v-card-title> -->
+                  </v-card>
                 </v-col>
               </v-row>
             </v-container>
@@ -284,6 +290,7 @@ export default {
     reviewDialog: false,
     closeDialog: false,
     loadingReviewList: true,
+    fullLoading: false,
     reviewPost: {
       overall: 0.0,
       summary: "",
@@ -303,6 +310,18 @@ export default {
   methods: {
     closeBookDialog() {
       EventBus.$emit("CLOSE_BOOK_DIALOG", "");
+    },
+    changeBook(asin) {
+      this.fullLoading = true;
+      const payload = {asin: asin}
+      this.$store.dispatch("store/single_book", payload).then(response => {
+        if (response != 0) {
+          EventBus.$emit("CHANGE_BOOK", response.book);
+          this.fullLoading = false;
+        } else {
+          console.log("Error retrieving single book");
+        }
+      });
     },
     helpfulButton(review) {
       this.$set(review.helpful, 0, review.helpful[0] + 1);
