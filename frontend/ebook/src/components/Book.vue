@@ -245,6 +245,7 @@
 
 <script>
 import StarRating from "vue-star-rating";
+import EventBus from "../EventBus";
 
 export default {
   components: {
@@ -277,11 +278,14 @@ export default {
       reviewText: "",
       reviewerName: ""
     },
-    reviews: [
-    ]
+    reviews: []
   }),
   mounted() {
-    this.getReviewList();
+    this.getReviewList(this.book.asin);
+    EventBus.$on("SELECT_BOOK", (book) => {
+      this.reviews = [];
+      this.getReviewList(book.asin);
+    });
   },
   methods: {
     helpfulButton(index) {
@@ -304,9 +308,9 @@ export default {
       this.reviewPost.reviewText = "";
       this.reviewPost.reviewerName = "";
     },
-    getReviewList() {
+    getReviewList(asin) {
       this.$store
-        .dispatch("store/review_list", {asin: this.book.asin})
+        .dispatch("store/review_list", { asin: asin })
         .then(response => {
           if (response != 0) {
             this.reviews = response.reviews;

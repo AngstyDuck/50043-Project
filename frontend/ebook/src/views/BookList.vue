@@ -42,6 +42,7 @@
 
 <script>
 import Book from "../components/Book.vue";
+import EventBus from "../EventBus";
 
 export default {
   components: {
@@ -66,6 +67,7 @@ export default {
     },
     selectBook(book) {
       this.selectedBook = book;
+      EventBus.$emit("SELECT_BOOK", book);
       console.log(this.selectedBook);
       this.bookDialog = true;
     }
