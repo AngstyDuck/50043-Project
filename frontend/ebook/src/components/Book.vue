@@ -75,7 +75,11 @@
             </v-row>
           </v-container>
           <v-divider></v-divider>
-          <div class="comments">
+          <div class="loading" v-if="loadingReviewList">
+            <div>Loading reviews...</div>
+            <v-progress-linear :height="20" striped color="primary" indeterminate></v-progress-linear>
+          </div>
+          <div class="comments" v-else>
             <v-container>
               <v-row dense v-for="(review, index) in reviews" :key="index">
                 <v-col cols="12">
@@ -241,6 +245,13 @@
   font-size: 1.7rem;
   text-align: center;
 }
+.loading {
+  /* position: absolute; */
+  left: 40%;
+  text-align: center;
+  padding-top: 20px;
+  font-size: 2rem;
+}
 </style>
 
 <script>
@@ -272,6 +283,7 @@ export default {
     page: 1,
     reviewDialog: false,
     closeDialog: false,
+    loadingReviewList: true,
     reviewPost: {
       overall: 0.0,
       summary: "",
@@ -282,7 +294,8 @@ export default {
   }),
   mounted() {
     this.getReviewList(this.book.asin);
-    EventBus.$on("SELECT_BOOK", (book) => {
+    EventBus.$on("SELECT_BOOK", book => {
+      this.loadingReviewList = true;
       this.reviews = [];
       this.getReviewList(book.asin);
     });
@@ -314,6 +327,7 @@ export default {
         .then(response => {
           if (response != 0) {
             this.reviews = response.reviews;
+            this.loadingReviewList = false;
           } else {
             console.log("Error retrieving review_list");
           }
