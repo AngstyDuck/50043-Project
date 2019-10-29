@@ -1,6 +1,12 @@
 INSTRUCTIONS TO RUN DOCKER
 
-1. COPY OVER amazon.sql to current directory
+1a. COPY OVER amazon.sql (~700 mb) to sql-dump
   - amazon.sql is the sql dump from the mysql MYSQL_DATABASE
-2. run docker-compose build
-3. run docker-compose up
+1b. COPY OVER processed_meta_kindle_exported.json to mongo-seed
+2. run docker-compose build -d
+3. docker container exec -i $(docker-compose ps -q mysql) mysql -uuser -ppassword AMAZON < ./sql-dump/amazon.sql
+4. run docker-compose up
+
+THIS WILL POPULATE THE MYSQL WITH THE DATA
+
+MongoDB

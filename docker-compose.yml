@@ -7,6 +7,8 @@ services:
       - mongo
     ports:
       - "5000:5000"
+    depends_on:
+      - mongo
     command: python -u reviews.py
   mysql:
     image: mysql:5.7
@@ -23,10 +25,16 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: password
       # Password for root access
     volumes:
-      - /var/lib/mysql
+      - ./sql-dump:/docker-entrypoint-initdb.d
   mongo:
-    image: mongo:latest
+    image: mongo:3.6.3
     volumes:
-      - /var/lib/mongodb
-    ports:
-      - "4545:27017"
+      - ./mongo-seed:/mongo-seed
+    # command:
+    #   /mongo-seed/import.sh
+    # ports:
+    #   - "43440:27017"
+    # environment:
+    #   CONN_NAME: test
+    #   DB_HOST: mongo
+    #   DB_PORT: 43440

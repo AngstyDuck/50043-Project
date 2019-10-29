@@ -17,8 +17,8 @@ migrate = Migrate(app, db)
 #Mongo AMAZONMETADATA
 
 # app.config.from_object(MongoConfig)
-app.config['MONGO_URI'] = "mongodb://mongo:27017/AMAZONMETADATA"
-mongo = PyMongo(app)
+# app.config['MONGO_URI'] = "mongodb://mongo:43440/AMAZONMETADATA"
+# mongo = PyMongo(app)
 
 #Mongo LOGS
 
