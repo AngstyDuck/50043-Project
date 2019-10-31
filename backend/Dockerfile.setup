@@ -1,0 +1,26 @@
+from ubuntu:18.04
+
+WORKDIR /usr/src/app
+
+RUN apt-get update
+RUN apt-get install -y python3-pip git wget zip
+
+RUN git clone https://github.com/SolsticeDante/50043-Project-lfs.git ./50043-project-lfs
+RUN git clone 	https://github.com/dinhtta/istd50043_project.git ./50043-prof
+
+RUN chmod 777 ./50043-prof/scripts/get_data.sh
+RUN ./50043-prof/scripts/get_data.sh
+
+RUN mkdir ./setup
+
+COPY ./setup/requirements.txt ./
+RUN pip3 install --no-cache-dir -r ./requirements.txt
+
+COPY ./setup ./
+COPY ./config.py ./
+COPY ./mongodbCommon.py ./
+COPY ./mysqlCommon.py ./
+
+RUN ls
+
+CMD ["python3", "./populate.py"]
