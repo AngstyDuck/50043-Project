@@ -52,7 +52,7 @@ class Config:
                     cursorclass=pymysql.cursors.DictCursor
                 )
         
-        self.mysql_sqlalchemy_engine = create_engine("mysql://{0}:{1}@{2}/{3}".format(
+        self.mysql_sqlalchemy_engine = sqlalchemy.create_engine("mysql://{0}:{1}@{2}/{3}".format(
             self.MYSQL_HOST,
             self.MYSQL_PASSWORD,
             self.MYSQL_HOST,

@@ -8,9 +8,9 @@ config = Config()
 
 # [database object, collection object]
 collections_databases = {
-    "logs": [config.logs, config.logs.logs],
-    "metadata": [config.metadata, config.metadata.metadata],
-    "test": [config.test, config.test.test]
+    "logs": [config.mongo_client.logs, config.mongo_client.logs.logs],
+    "metadata": [config.mongo_client.metadata, config.mongo_client.metadata.metadata],
+    "test": [config.mongo_client.test, config.mongo_client.test.test]
 }
 
 class MongodbCommon:
