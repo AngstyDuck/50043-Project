@@ -8,73 +8,75 @@
       <div>Loading books...</div>
     </div>
     <div v-else>
-      <v-container>
+      <div class="top-row">
+        <v-container>
+          <v-row>
+            <v-col class="section-title">New Releases</v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              v-for="book in pagedReleaseBooks"
+              v-bind:key="book.asin"
+              cols="12"
+              xs="6"
+              sm="4"
+              md="3"
+              lg="2"
+            >
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  :elevation="hover ? 12 : 2"
+                  @click="selectBook(book)"
+                  class="mx-auto"
+                  max-width="344"
+                >
+                  <v-img :src="book.imUrl" min-height="130px"></v-img>
+                  <!-- <v-card-title>{{ asin }}</v-card-title> -->
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col>
+              <v-pagination v-model="pageRelease" :length="parseInt(releaseBooks.length/6) +1"></v-pagination>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col class="section-title">Bestselling Books</v-col>
+          </v-row>
+          <v-row>
+            <v-col
+              v-for="book in pagedBestBooks"
+              v-bind:key="book.asin"
+              cols="12"
+              xs="6"
+              sm="4"
+              md="3"
+              lg="2"
+            >
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  :elevation="hover ? 12 : 2"
+                  @click="selectBook(book)"
+                  class="mx-auto"
+                  max-width="344"
+                >
+                  <v-img :src="book.imUrl" min-height="130px"></v-img>
+                  <!-- <v-card-title>{{ asin }}</v-card-title> -->
+                </v-card>
+              </v-hover>
+            </v-col>
+          </v-row>
+          <v-row no-gutters>
+            <v-col>
+              <v-pagination v-model="pageBest" :length="parseInt(bestBooks.length/6) +1"></v-pagination>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      <v-container class="bot-row">
         <v-row>
-          <v-col>New Releases</v-col>
-        </v-row>
-        <v-row>
-          <v-col
-            v-for="book in pagedReleaseBooks"
-            v-bind:key="book.asin"
-            cols="12"
-            xs="6"
-            sm="4"
-            md="3"
-            lg="2"
-          >
-            <v-hover v-slot:default="{ hover }">
-              <v-card
-                :elevation="hover ? 12 : 2"
-                @click="selectBook(book)"
-                class="mx-auto"
-                max-width="344"
-              >
-                <v-img :src="book.imUrl" min-height="130px"></v-img>
-                <!-- <v-card-title>{{ asin }}</v-card-title> -->
-              </v-card>
-            </v-hover>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-pagination v-model="pageRelease" :length="parseInt(releaseBooks.length/6) +1"></v-pagination>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>Bestselling Books</v-col>
-        </v-row>
-        <v-row>
-          <v-col
-            v-for="book in pagedBestBooks"
-            v-bind:key="book.asin"
-            cols="12"
-            xs="6"
-            sm="4"
-            md="3"
-            lg="2"
-          >
-            <v-hover v-slot:default="{ hover }">
-              <v-card
-                :elevation="hover ? 12 : 2"
-                @click="selectBook(book)"
-                class="mx-auto"
-                max-width="344"
-              >
-                <v-img :src="book.imUrl" min-height="130px"></v-img>
-                <!-- <v-card-title>{{ asin }}</v-card-title> -->
-              </v-card>
-            </v-hover>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-pagination v-model="pageBest" :length="parseInt(bestBooks.length/6) +1"></v-pagination>
-          </v-col>
-        </v-row>
-      </v-container>
-      <v-container>
-        <v-row>
-          <v-col>Browse our collection</v-col>
+          <v-col class="section-title">Browse our collection</v-col>
         </v-row>
         <v-row>
           <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
@@ -106,6 +108,15 @@
   text-align: center;
   padding-top: 20%;
   font-size: 2rem;
+}
+.top-row {
+  background-color: rgb(62,62,62);
+  width: 100%;
+  padding: 0;
+}
+.section-title {
+  font-size: 2rem;
+  font-weight: 400;
 }
 </style>
 
