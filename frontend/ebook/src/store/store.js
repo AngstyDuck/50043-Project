@@ -1,7 +1,7 @@
 import axiosInit from "axios";
 
 const axios = axiosInit.create({
-  baseURL: "https://8ae48f56-65d6-4ded-85b8-6519961968ac.mock.pstmn.io",
+  baseURL: "https://66d2d48d-b85b-4e5f-afa3-5f9635518c6a.mock.pstmn.io",
   headers: {
     "Content-Type": "application/json"
   }
@@ -12,6 +12,22 @@ const state = {
 };
 
 const actions = {
+  main_top_row_books({ commit }, payload) {
+    console.log("activated")
+    return axios
+      .get("/main_top_row_books", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
   book_list({ commit }, payload) {
     return axios
       .get("/book_list", payload)
