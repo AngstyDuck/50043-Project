@@ -79,7 +79,7 @@
           <v-col class="section-title">Browse our collection</v-col>
         </v-row>
         <v-row>
-          <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
+          <v-col v-for="book in collection" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
             <v-hover v-slot:default="{ hover }">
               <v-card
                 :elevation="hover ? 12 : 2"
@@ -110,7 +110,7 @@
   font-size: 2rem;
 }
 .top-row {
-  background-color: rgb(62,62,62);
+  background-color: rgb(62, 62, 62);
   width: 100%;
   padding: 0;
 }
@@ -155,10 +155,11 @@ export default {
     }
   },
   data: () => ({
+    scrolledToBottom: false,
     pageBest: 1,
     pageRelease: 1,
     bookDialog: false,
-    books: [],
+    collection: [],
     selectedBook: null,
     loadingBookList: true,
     releaseBooks: [
@@ -786,7 +787,7 @@ export default {
     getBooks() {
       this.$store.dispatch("store/book_list", {}).then(response => {
         if (response != 0) {
-          this.books = response.books;
+          this.collection = response.books;
           this.loadingBookList = false;
         } else {
           console.log("Error retrieving book_list");
@@ -798,11 +799,15 @@ export default {
       EventBus.$emit("SELECT_BOOK", book);
       console.log(this.selectedBook);
       this.bookDialog = true;
+    },
+    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+      if (scrollTop + clientHeight >= scrollHeight) {
+        this.loadMorePosts()
+      }
     }
   },
   mounted() {
     this.getBooks();
-
     EventBus.$on("CHANGE_BOOK", payload => {
       this.selectBook(payload);
     });
