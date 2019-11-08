@@ -11,11 +11,11 @@
       <div class="top-row">
         <v-container>
           <v-row>
-            <v-col class="section-title">New Releases</v-col>
+            <v-col class="section-title">Our Recommendations</v-col>
           </v-row>
           <v-row>
             <v-col
-              v-for="book in pagedReleaseBooks"
+              v-for="book in pagedRecommendedBooks"
               v-bind:key="book.asin"
               cols="12"
               xs="6"
@@ -38,7 +38,10 @@
           </v-row>
           <v-row no-gutters>
             <v-col>
-              <v-pagination v-model="pageRelease" :length="parseInt(releaseBooks.length/6) +1"></v-pagination>
+              <v-pagination
+                v-model="pageRecommended"
+                :length="parseInt(recommendedBooks.length/6) +1"
+              ></v-pagination>
             </v-col>
           </v-row>
           <v-row no-gutters>
@@ -79,7 +82,15 @@
           <v-col class="section-title">Browse our collection</v-col>
         </v-row>
         <v-row>
-          <v-col v-for="book in collection" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
+          <v-col
+            v-for="book in collection"
+            v-bind:key="book.asin"
+            cols="12"
+            xs="6"
+            sm="4"
+            md="3"
+            lg="2"
+          >
             <v-hover v-slot:default="{ hover }">
               <v-card
                 :elevation="hover ? 12 : 2"
@@ -95,6 +106,10 @@
         </v-row>
       </v-container>
     </div>
+    <!-- remove below section after testing -->
+    <v-btn color="pink" dark small absolute bottom right fab>
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -141,13 +156,13 @@ export default {
         return [];
       }
     },
-    pagedReleaseBooks() {
-      if (this.releaseBooks) {
-        return this.releaseBooks.slice(
-          (this.pageRelease - 1) * 6 > this.releaseBooks.length
-            ? this.releaseBooks.length
-            : (this.pageRelease - 1) * 6,
-          this.pageRelease * 6
+    pagedRecommendedBooks() {
+      if (this.recommendedBooks) {
+        return this.recommendedBooks.slice(
+          (this.pageRecommended - 1) * 6 > this.recommendedBooks.length
+            ? this.recommendedBooks.length
+            : (this.pageRecommended - 1) * 6,
+          this.pageRecommended * 6
         );
       } else {
         return [];
@@ -157,12 +172,12 @@ export default {
   data: () => ({
     scrolledToBottom: false,
     pageBest: 1,
-    pageRelease: 1,
+    pageRecommended: 1,
     bookDialog: false,
     collection: [],
     selectedBook: null,
     loadingBookList: true,
-    releaseBooks: [
+    recommendedBooks: [
       {
         title:
           "Faux Leather Kindle Sleeve Case for Kindle (Fits 9.7&quot; Display, Latest Generation Kindle DX) - Yellow (Smooth finish)",
@@ -800,9 +815,9 @@ export default {
       console.log(this.selectedBook);
       this.bookDialog = true;
     },
-    onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+    onScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
       if (scrollTop + clientHeight >= scrollHeight) {
-        this.loadMorePosts()
+        this.loadMorePosts();
       }
     }
   },
