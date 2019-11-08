@@ -219,7 +219,7 @@ Example body from frontend
 Only a return status of 200 is needed for now.
 Future expansion could include a check for usernames, and see if anyone with the same username has posted before.
 
-### GET review_list/{{ASIN_NUMBER}}/
+### GET single_book/{{ASIN_NUMBER}}/
 e.g. /single_book/B0070YQGSO
 ```json
 {
