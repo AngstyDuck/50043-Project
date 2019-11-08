@@ -107,7 +107,7 @@
       </v-container>
     </div>
     <!-- remove below section after testing -->
-    <v-btn color="pink" dark small absolute bottom right fab>
+    <v-btn @click="getBotRowBooks()" color="pink" dark small absolute bottom right fab>
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </div>
@@ -178,7 +178,7 @@ export default {
     selectedBook: null,
     loadingBookList: true,
     recommendedBooks: [],
-    bestBooks:[]
+    bestBooks: []
   }),
   methods: {
     getTopRowBooks() {
@@ -191,6 +191,23 @@ export default {
           console.log("Error retrieving book_list");
         }
       });
+    },
+    getBotRowBooks() {
+      this.$store
+        .dispatch("store/main_bot_row_books", {
+          params: {
+            start_list: 0,
+            end_list: 20,
+            seed: 123
+          }
+        })
+        .then(response => {
+          if (response != 0) {
+            this.collection.push.apply(this.collection, response.collection);
+          } else {
+            console.log("Error retrieving book_collection");
+          }
+        });
     },
     selectBook(book) {
       this.selectedBook = book;
@@ -206,6 +223,7 @@ export default {
   },
   mounted() {
     this.getTopRowBooks();
+    this.getBotRowBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
       this.selectBook(payload);
     });
