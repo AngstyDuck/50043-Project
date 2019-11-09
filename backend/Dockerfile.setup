@@ -10,7 +10,6 @@ RUN git lfs install
 
 
 RUN git clone https://github.com/SolsticeDante/50043-Project-lfs.git ./50043-project-lfs
-RUN git status
 RUN git clone https://github.com/dinhtta/istd50043_project.git ./50043-prof
 
 RUN chmod 777 ./50043-prof/scripts/get_data.sh

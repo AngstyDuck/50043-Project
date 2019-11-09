@@ -32,7 +32,7 @@ metadata = MongodbCommon("test", "test")
 with open(METADATADIR, "r") as readFile:
     for line in readFile:
         readline = readFile.readline()
-        print("readline: {0}".format(readline), file=sys.stderr)
+        # print("readline: {0}".format(readline), file=sys.stderr)
         jsonDict = json.loads(readline)
 
         metadata.postOne(jsonDict)

@@ -21,7 +21,7 @@ class MongodbCommon:
         assert dbName == collectionName and dbName in collections_databases.keys()
 
         self.dbName = collections_databases[dbName][0]
-        self.collectionname = collections_databases[dbName][1]
+        self.collectionName = collections_databases[dbName][1]
 
 
     def getOne(self, toQuery):
