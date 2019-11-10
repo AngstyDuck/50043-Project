@@ -3,7 +3,7 @@
     <v-dialog v-if="selectedBook" v-model="bookDialog" min-height="900" width="1700">
       <Book :book="selectedBook" />
     </v-dialog>
-    <div class="loading" v-if="loadingBookList">
+    <div class="loading-top" v-if="loadingBookList">
       <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
       <div>Loading books...</div>
     </div>
@@ -104,6 +104,14 @@
             </v-hover>
           </v-col>
         </v-row>
+        <v-row v-if="collectionLoading">
+          <v-col>
+            <div class="loading-collection">
+              <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
+              <div>Loading collection...</div>
+            </div>
+          </v-col>
+        </v-row>
       </v-container>
     </div>
     <!-- remove below section after testing -->
@@ -117,11 +125,16 @@
 .book {
   padding: 0 10px;
 }
-.loading {
+.loading-top {
   position: absolute;
   left: 40%;
   text-align: center;
   padding-top: 20%;
+  font-size: 2rem;
+}
+.loading-collection {
+  left: 40%;
+  text-align: center;
   font-size: 2rem;
 }
 .top-row {
@@ -178,7 +191,10 @@ export default {
     selectedBook: null,
     loadingBookList: true,
     recommendedBooks: [],
-    bestBooks: []
+    bestBooks: [],
+    seed: 0,
+    fetchLength: 18,
+    collectionLoading: false
   }),
   methods: {
     getTopRowBooks() {
@@ -193,17 +209,19 @@ export default {
       });
     },
     getBotRowBooks() {
+      this.collectionLoading = true;
       this.$store
         .dispatch("store/main_bot_row_books", {
           params: {
-            start_list: 0,
-            end_list: 20,
-            seed: 123
+            start_list: this.collection.length,
+            end_list: this.collection.length + this.fetchLength - 1,
+            seed: this.seed
           }
         })
         .then(response => {
           if (response != 0) {
             this.collection.push.apply(this.collection, response.collection);
+            this.collectionLoading = false;
           } else {
             console.log("Error retrieving book_collection");
           }
@@ -222,6 +240,7 @@ export default {
     }
   },
   mounted() {
+    this.seed = Math.floor(Math.random() * 1000 + 1);
     this.getTopRowBooks();
     this.getBotRowBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
