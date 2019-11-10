@@ -1,7 +1,7 @@
 <template>
   <div @scroll="scrolledToBottom" class="scrollDiv">
     <v-app id="inspire">
-      <v-navigation-drawer disable-resize-watcher v-model="drawer" app clipped>
+      <!-- <v-navigation-drawer disable-resize-watcher v-model="drawer" app clipped>
         <v-list dense>
           <v-list-item @click>
             <v-list-item-action>
@@ -20,11 +20,14 @@
             </v-list-item-content>
           </v-list-item>
         </v-list>
-      </v-navigation-drawer>
+      </v-navigation-drawer>-->
 
       <v-app-bar app clipped-left>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
+        <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon> -->
+        <v-btn @click="goHome()" text icon color="blue lighten-2">
+          <v-icon>home</v-icon>
+        </v-btn>
+        <v-toolbar-title>eBook Browser</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
@@ -82,7 +85,14 @@ export default {
     },
     searchEnter() {
       if (this.$router.currentRoute.path != "/search") {
-        this.$router.push({ path: '/search' })
+        this.$router.push({ path: "/search" });
+      }
+    },
+    goHome() {
+      if (this.$router.currentRoute.path != "/main") {
+        this.$router.push({ path: "/main" });
+      } else {
+        location.reload();
       }
     }
   }
