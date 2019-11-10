@@ -1,81 +1,33 @@
-from flask import render_template, make_response,jsonify
-from app import app, models, mongo
-import logging
-from time import sleep
+from flask import request, url_for
+from flask_api import FlaskAPI, status, exceptions
+
+# local modules
 import sys
+sys.path.insert(1, "./api_logic")
+from review_list import _review_list
+from post_new_review import _post_new_review
 
 
-sys.path.insert(1,'./app')
-from mongolog.handlers import MongoHandler
-
-from mongodbCommon import MongodbCommon as mdb
+app = FlaskAPI(__name__)
 
 
-logging.basicConfig(filename='./database.log',level=logging.DEBUG,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
-# logging.getLogger('logs').addHandler(MongoHandler.to(db='logs', collection='logs'))
-# logging.setLevel(logging.DEBUG)
-
-from pymongo import MongoClient
-from pymongo import ASCENDING
-import datetime
-
-client = MongoClient('mongo',27017)
-db = client.logs
-log_collection = db.logs
-log_collection.ensure_index([("timestamp", ASCENDING)])
-
-
-def log(msg):
-    """Log `msg` to MongoDB log"""
-    entry = {}
-    entry['name'] = 'logs'
-    entry['timestamp'] = datetime.datetime.utcnow()
-    entry['msg'] = msg
-    log_collection.insert(entry)
-
-@app.route('/check/<index>', methods = ['GET'])
-def displayData(index):
-    results = models.Reviews.query.filter_by(index = index)
-    reviews = []
-    for result in results:
-        reviews.append(str(result.id))
-    app.logger.info('Processing SQL request')
-    log('Processing SQL request')
-    return str(reviews[0])
-
-@app.route("/home/<type>/<asin>")
-def displayMeta(asin,type):
-    # online_users = mongo.db.users.find({"online": True})
+@app.route("/review_list/<asin_number>", methods=["GET"])
+def review_list(asin_number):
     try:
-        metadata = mongo.db.AMAZONMETADATA.find({'asin': asin})
-        results = []
-        for d in metadata:
-            results.append(d[type])
-        app.logger.info('Processing MONGO request')
-        log('Processing MONGO request')
-        return f'{results[0]} displayed'
-    except:
-        app.logger.info('Error 404')
-        log('Error 404')
-        return f'NOT FOUND'
-
-@app.route('/log')
-def stream():
-    def generate():
-        with open('database.log') as f:
-            while True:
-                yield f.read()
-                sleep(0.5)
-
-    return app.response_class(generate(), mimetype='text/plain')
-
-@app.route('/savelog')
-def storeLog():
-    logMongo = mdb('logs', 'logs')
-    logging = logMongo.getOne('')
-    return str(logging)
+        output = _review_list(asin_number)
+        return output, status.HTTP_200_OK
+    except Exception as e:
+        print(e)
+        return {"error": e}, status.HTTP_INTERNAL_SERVER_ERROR
 
 
-'''
-Features not implemented yet
-'''
+
+@app.route("/post_new_review", methods=["POST"])
+def post_new_review():
+    try:
+        body = request.get_json()
+        output _post_new_review(body)
+        return output, status.HTTP_200_OK
+    except Exception as e:
+        print(e)
+        return {"error": e}, status.HTTP_INTERNAL_SERVER_ERROR

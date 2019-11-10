@@ -20,11 +20,9 @@ RUN mkdir ./setup
 COPY ./setup/requirements.txt ./
 RUN pip3 install --no-cache-dir -r ./requirements.txt
 
-COPY ./setup ./
-COPY ./config.py ./
-COPY ./mongodbCommon.py ./
-COPY ./mysqlCommon.py ./
+COPY . .
 
-RUN ls
+ENV FLASK_APP=reviews.py
+ENV PATH=/usr/src/app
 
-CMD ["python3", "./populate.py"]
+CMD ["flask", "run"]
