@@ -114,10 +114,6 @@
         </v-row>
       </v-container>
     </div>
-    <!-- remove below section after testing -->
-    <v-btn @click="getBotRowBooks()" color="pink" dark small absolute bottom right fab>
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
   </div>
 </template>
 
