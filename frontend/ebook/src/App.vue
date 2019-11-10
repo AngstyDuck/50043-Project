@@ -26,12 +26,21 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Application</v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <v-text-field
-          class="ma-2"
+          class="mt-6"
           outlined
           label="Search"
           prepend-inner-icon="search"
           background-color="black"
+          dense
+          v-model="searchWord"
+          v-on:keyup.enter="searchEnter"
         ></v-text-field>
       </v-app-bar>
 
@@ -55,7 +64,8 @@ export default {
   },
 
   data: () => ({
-    drawer: false
+    drawer: false,
+    searchWord: ""
   }),
 
   created() {
@@ -69,6 +79,11 @@ export default {
           EventBus.$emit("GET_BOT_ROW_BOOKS", "");
         }
       }
+    },
+    searchEnter() {
+      if (this.$router.currentRoute.path != "/search") {
+        this.$router.push({ path: '/search' })
+      }
     }
   }
 };
@@ -76,7 +91,7 @@ export default {
 
 <style scoped>
 .scrollDiv {
-    max-height: 100vh;
-    overflow: auto; 
+  max-height: 100vh;
+  overflow: auto;
 }
 </style>
