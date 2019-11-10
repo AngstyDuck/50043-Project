@@ -2,3 +2,5 @@ pymongo==3.9.0
 PyMySQL==0.9.3
 sqlalchemy
 pandas==0.25.2
+Flask==1.1.1
+Flask-API==1.1

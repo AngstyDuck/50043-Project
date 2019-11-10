@@ -20,9 +20,12 @@ RUN mkdir ./setup
 COPY ./setup/requirements.txt ./
 RUN pip3 install --no-cache-dir -r ./requirements.txt
 
+ENV FLASK_APP reviews/reviews.py
+
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
+
 COPY . .
+EXPOSE 5000
 
-ENV FLASK_APP=reviews.py
-ENV PATH=/usr/src/app
-
-CMD ["flask", "run"]
+CMD flask run
