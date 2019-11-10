@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import EventBus from "./EventBus";
+
 export default {
   props: {
     source: String
@@ -62,10 +64,9 @@ export default {
   methods: {
     scrolledToBottom(event) {
       var el = event.srcElement;
-      console.log(el.scrollTop + " " + el.scrollHeight + " " + el.clientHeight);
       if (!this.reachedBottom) {
         if (el.scrollTop >= el.scrollHeight - el.clientHeight - 10) {
-          console.log("hah");
+          EventBus.$emit("GET_BOT_ROW_BOOKS", "");
         }
       }
     }

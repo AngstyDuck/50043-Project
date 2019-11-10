@@ -249,6 +249,11 @@ export default {
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
       this.bookDialog = false;
     });
+    EventBus.$on("GET_BOT_ROW_BOOKS", payload => {
+      if (!this.collectionLoading) {
+        this.getBotRowBooks();
+      }
+    });
   }
 };
 </script>
