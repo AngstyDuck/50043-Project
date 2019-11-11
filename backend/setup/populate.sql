@@ -16,7 +16,7 @@ CREATE TABLE amazonreviews(
 	PRIMARY KEY (id)
 	);
 
-LOAD DATA LOCAL INFILE '~/50043-Project/backend/setup/kindle_reviews.csv' 
+LOAD DATA LOCAL INFILE 'C:/Users/user/Documents/Big Database and Data system/Lab1/50043-Project/backend/setup/kindle_reviews.csv' 
 INTO TABLE amazonreviews FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS 
