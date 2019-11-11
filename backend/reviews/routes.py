@@ -15,10 +15,10 @@ from post_new_review import _post_new_review
 def review_list(asin_number):
     try:
         output = _review_list(asin_number)
-        return output, status.HTTP_200_OK
+        return output, 200
     except Exception as e:
         print(e)
-        return {"error": e}, status.HTTP_INTERNAL_SERVER_ERROR
+        return {"error": e}, 500
 
 
 
@@ -27,10 +27,10 @@ def post_new_review():
     try:
         body = request.get_json()
         output = _post_new_review(body)
-        return output, status.HTTP_200_OK
+        return output, 200
     except Exception as e:
         print(e)
-        return {"error": e}, status.HTTP_INTERNAL_SERVER_ERROR
+        return {"error": e}, 500
 
 @app.route("/test", methods=["GET"])
 def test():
