@@ -1,4 +1,2 @@
 #! /bin/bash
-
-mongod --port 43440
-mongoimport --host mongo --db AMAZONMETADATA --collection AMAZONMETADATA --type json --file /mongo-seed/processed_meta_kindle_exported.json --jsonArray
+mongoimport --host 172.18.0.2 --port 43074 --db AMAZON --collection AMAZONMETADATA --type json --file /mongo-seed/processed_meta_kindle_exported.json

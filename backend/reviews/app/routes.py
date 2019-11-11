@@ -6,7 +6,7 @@ from time import sleep
 import sys
 from pymongo import MongoClient
 
-client = MongoClient('mongo',43440)
+client = MongoClient('mongodb://172.18.0.1:43074/')
 mongo = client.AMAZONMETADATA
 
 
