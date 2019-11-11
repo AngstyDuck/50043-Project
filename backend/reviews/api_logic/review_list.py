@@ -2,7 +2,7 @@ from flask import jsonify
 
 
 def _review_list(asin_number):
-    sample_output = [
+    sample_output = {"review":[
                         {
                             "reviewerID": "A1F6404F1VG29J",
                             "asin": "B000F83SZQ",
@@ -105,5 +105,5 @@ def _review_list(asin_number):
                           "summary": "Enjoyable reading and reminding the old times",
                           "reviewTime": "June 8, 2019"
                         }
-                    ]
-    return jsonify(reviews=sample_output)
+                    ]}
+    return jsonify(sample_output)

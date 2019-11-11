@@ -1,4 +1,5 @@
 from flask import jsonify
 
 def _post_new_review(body):
-    return jsonify(output="success")
+    output = {"message": "OK"}
+    return jsonify(output)
