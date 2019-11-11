@@ -1,4 +1,4 @@
-from flask import request, url_for
+from flask import request, url_for, jsonify
 from flask_api import FlaskAPI, status, exceptions
 
 # local modules
@@ -16,7 +16,7 @@ from post_new_review import _post_new_review
 @app.route("/review_list/<asin_number>", methods=["GET"])
 def review_list(asin_number):
     output = _review_list(asin_number)
-    return output, 200
+    return jsonify(output), 200
 
 
 
@@ -24,8 +24,8 @@ def review_list(asin_number):
 def post_new_review():
     body = request.get_json()
     output = _post_new_review(body)
-    return output, 200
+    return jsonify(output), 200
 
 @app.route("/test", methods=["GET"])
 def test():
-    return "Hello"
+    return jsonify({"test message": "hello"})
