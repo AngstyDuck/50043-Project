@@ -17,7 +17,7 @@ CREATE TABLE amazonreviews(
 	);
 
 LOAD DATA LOCAL INFILE '~/50043-Project/backend/setup/kindle_reviews.csv' 
-INTO TABLE amazonreviews FIELDS TERMINATED BY ','
+INTO TABLE amazonreviews FIELDS TERMINATED BY '~'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS 
 ;
