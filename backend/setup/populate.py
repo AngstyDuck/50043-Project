@@ -1,28 +1,18 @@
 import sys
+
+import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.abspath(os.path.join(dir_path, '..'))
+sys.path.insert(1, parent_dir)
+
 import pymysql
 from pandas.io import sql
 import pandas as pd
 import pymysql
 pymysql.install_as_MySQLdb()
-from mongodbCommon import MongodbCommon
 import json
 
-from config import Config
-
-
-
-### Fills up MySQL server
-# filename = "./kindle_reviews.csv"
-# amazon = pd.read_csv(filename, index_col = [0], low_memory=False)
-# amazon = amazon.drop(["Unnamed: 0.1"],axis =1)
-
-# config = Config()
-# con = config.mysql_sqlalchemy_engine.connect()
-
-# amazon.to_sql(name='amazonReviews',con=con,if_exists='replace')
-
-# print('CSV IMPORTED')
-
+from mongodbCommon import MongodbCommon
 
 
 ### Fills up MongoDB

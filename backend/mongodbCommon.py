@@ -2,15 +2,17 @@ from pymongo import MongoClient
 import sys
 import json
 import re
-from config import Config
+from config import DevConfig
 
-config = Config()
+config = DevConfig()
+
+mongo_client = MongoClient(config.MONGO_HOST, 27017)
 
 # [database object, collection object]
 collections_databases = {
-    "logs": [config.mongo_client.logs, config.mongo_client.logs.logs],
-    "metadata": [config.mongo_client.metadata, config.mongo_client.metadata.metadata],
-    "test": [config.mongo_client.test, config.mongo_client.test.test]
+    "logs": [mongo_client.logs, mongo_client.logs.logs],
+    "metadata": [mongo_client.metadata, mongo_client.metadata.metadata],
+    "test": [mongo_client.test, mongo_client.test.test]
 }
 
 class MongodbCommon:
