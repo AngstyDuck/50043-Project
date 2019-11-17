@@ -41,3 +41,5 @@ class MongodbCommon:
     def deleteOne(self, toQuery):
         self.collectionName.delete_one(toQuery)
 
+    def dropDb(self):
+        mongo_client.drop_database(self.dbName)
