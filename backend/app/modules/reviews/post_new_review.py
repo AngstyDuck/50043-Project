@@ -7,7 +7,7 @@ def _post_new_review():
     
     temp_val = []
     temp_val.append("'{0}'".format(body["asin"]))  # asin - expected str
-    temp_val.append("'[0,0]'")  # helpful - HARDCODED
+    temp_val.append("'[0, 0]'")  # helpful - HARDCODED
     temp_val.append(str(body["overall"]))  # overall - expected int
     temp_val.append("'{0}'".format(body["reviewText"]))  # reviewText - expected str
     temp_val.append("'2019-11-17 00:00:00'")  # reviewTime - HARDCODED
