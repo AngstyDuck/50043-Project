@@ -2,7 +2,7 @@
 
 # Insert reviews into mysql
 echo "Inserting book reviews into mysql..."
-mysql -u root -p < ~/Desktop/50043-Project/backend/setup/mysql_setup.sql
+mysql -u root -p < ./mysql_setup.sql
 
 # Insert metadata into mongodb
 # echo "Inserting metadata into mongo..."

@@ -5,7 +5,7 @@ from mongodbCommon import MongodbCommon
 import json
 
 
-METADATADIR = "/home/xubuntu/Desktop/50043-Project-lfs/processed_meta_kindle_exported.json"
+METADATADIR = "/home/ubuntu/Desktop/50043-Project-lfs/processed_meta_kindle_exported.json"
 
 metadata = MongodbCommon("metadata", "metadata")
 with open(METADATADIR, "r") as readFile:

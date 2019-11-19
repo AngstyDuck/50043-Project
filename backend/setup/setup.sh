@@ -15,6 +15,7 @@ git-lfs install
 
 # Installing MySQL
 apt install -y mysql-server
+mysql_secure_installation
 
 
 # Installing MongoDB
