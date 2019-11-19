@@ -9,7 +9,6 @@ sys.path.insert(1, "./..")
 sys.path.insert(1, "./app/modules")
 import config
 
-
 # globally accessible libraries
 global MongoDB
 global SQLAlchemy
@@ -23,27 +22,38 @@ def create_app():
     """
     # initialize core application
     app = Flask(__name__, instance_relative_config=False)
-    app.config.from_pyfile("../config.py", silent=False)
 
-    # initialize plugins
-    
-    MongoDB = MongoClient(config.DevConfig.MONGO_HOST, 27017)
+    # add config values
+    flask_env = os.environ["FLASK_ENV"]
+    if flask_env == "local":
+        app.config.from_object("config.Config_local")
+    elif flask_env == "remoteDev":
+        app.config.from_object("config.Config_remoteDev")
+
+    # initialize plugins 
+    MongoDB = MongoClient(app.config["MONGO_HOST"], 27017)
     PyMySQL = pymysql.connect(
-                host=config.DevConfig.MYSQL_HOST,
-                user=config.DevConfig.MYSQL_USERNAME,
-                password=config.DevConfig.MYSQL_PASSWORD,
-                db=config.DevConfig.MYSQL_DATABASE,
+                host=app.config["MYSQL_HOST"],
+                user=app.config["MYSQL_USERNAME"],
+                password=app.config["MYSQL_PASSWORD"],
+                db=app.config["MYSQL_DATABASE"],
                 charset="utf8mb4",
                 cursorclass=pymysql.cursors.DictCursor
             )
     SQLAlchemy = sqlalchemy.create_engine("mysql+pymysql://{0}:{1}@{2}/{3}".format(
-        config.DevConfig.MYSQL_HOST,
-        config.DevConfig.MYSQL_PASSWORD,
-        config.DevConfig.MYSQL_HOST,
-        config.DevConfig.MYSQL_DATABASE
+        app.config["MYSQL_HOST"],
+        app.config["MYSQL_PASSWORD"],
+        app.config["MYSQL_HOST"],
+        app.config["MYSQL_DATABASE"]
     ))
-    
 
+    # these objects are named in accordance to how each of their tutorials address them for ease of usage
+    app.config.from_mapping(
+                MONGODB_CLIENT = MongoDB,
+                PYMYSQL_CONNECTION = PyMySQL,
+                SQLALCHEMY_ENGINE = SQLAlchemy
+            )
+    
     with app.app_context():
         import reviews
         # import app.modules.books
