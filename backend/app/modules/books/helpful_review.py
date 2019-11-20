@@ -17,28 +17,26 @@ helpful[1]++;
 Add 'one' to both sections of the array.
 Only a return status of 200 is needed. The frontend will ignore any body elements.
 '''
+from flask import request
+from datetime import datetime
+from flask import current_app as app
 
-from flask import jsonify. request
-from flask_jwt_extended import jwt_required, get_jwt_identity
+def _helpful_review():
+    data = {
+    "reviewerID": "A3DE6XGZ2EPADS",
+    "asin": "B000F83SZQ",
+    "reviewerName": "WPY"
+    }
+    #data = request.json
+    getGuery = "SELECT * FROM {0} WHERE asin=\'{1}\', reviewerID=\'{2}\', reviewerName=\'{3}\' LIMIT 1 ".format(app.config["MYSQL_TABLE_REVIEWS"], data['asin'], data['reviewerID'],data['reviewerName'])
+    connection = app.config["PYMYSQL_CONNECTION"].cursor()
+    with connection as cursor:
+        cursor.execute(getQuery)
+        query_result = cursor.fetchall()
+        helpful_ = []
+        helpful_.append(int(query_result[0]["helpful_"][1])+1)
+        helpful_.append(int(query_result[0]["helpful_"][4])+1)
+        cursor.execute("UPDATE {0} SET helpful = \'{1}\' WHERE id =\'{2}\'".format(app.config["MYSQL_TABLE_REVIEWS"],str(helpful_),query_result[0]["id"] ))
+    connection.commit()
+    return{"Update": "Done"}
 
-reviews = app.config['']
-metadata = app.config['']
-
-def _helpful_review(data):
-
-    data = json.loads(data)
-    review = amazonreviews.query.filter_by(reviewerID=data['reviewerID'], asin=data['asin'], reviewerName=data['reviewerName']).first()
-    helpful = review.helpful
-    first = helpful[1]
-    second = helpful[4]
-    new_first = int(first) + 1
-    new_second = int(second) + 1
-    helpful_ = []
-    helpful_.append(new_first)
-    helpful_.append(new_second)
-    helpful_ = str(helpful_)
-
-    review.helpful = helpful_
-    db.session.commit()
-
-    return '200'

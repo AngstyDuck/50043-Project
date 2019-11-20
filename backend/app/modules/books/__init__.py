@@ -6,8 +6,14 @@ import sys
 import os
 dirname = os.path.dirname(__file__)
 sys.path.insert(1, dirname)
+<<<<<<< HEAD
 #from main_bot_row_books import _main_bot_row_books
 from single_book import _single_book
+=======
+from main_bot_row_books import _main_bot_row_books
+# from single_book import _single_book
+from helpful_review import _helpful_review
+>>>>>>> 927607416fe659030e0a1013a8cc6cd548ff3c77
 
 
 module = Blueprint("books", __name__)
@@ -16,7 +22,13 @@ module = Blueprint("books", __name__)
 def _test():
     return jsonify({"test message": "hello"})
 
+<<<<<<< HEAD
 #module.add_url_rule("/main_bot_row_books/<start>/<seed>", view_func=_main_bot_row_books, methods=["GET"])
 module.add_url_rule("/single_book/<asin>", view_func=_single_book, methods=["GET"])
+=======
+module.add_url_rule("/main_bot_row_books/<start>/<seed>", view_func=_main_bot_row_books, methods=["GET"])
+#module.add_url_rule("/single_book/<asin>", view_func=_single_book, methods=["GET"])
+>>>>>>> 927607416fe659030e0a1013a8cc6cd548ff3c77
 module.add_url_rule("/test", view_func=_test, methods=["GET"])
+module.add_url_rule("/helpful_review", view_func=_helpful_review, methods=["PUT"])
 
