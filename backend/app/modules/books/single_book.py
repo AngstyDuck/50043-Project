@@ -1,9 +1,16 @@
 from app import sqlalchem
 from flask import jsonify
 from sqlalchemy import func
-
+import sys
+import json
+import copy
+from datetime import datetime
+from flask import Flask
+from flask import current_app as app
 
 def _single_book(asin):
+    query = "SELECT avg(overall) FROM {0} GROUP BY asin WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], str(asin))
+   '''
     averageRating = sqlalchem.session.query(func.avg(amazonreviews.overall)).group_by(amazonreviews.asin).filter_by(asin=asin).scalar()
     met_data = metadata.find_one({"asin": asin})
 
@@ -53,4 +60,6 @@ def _single_book(asin):
     print(output)
 
     return jsonify(output)
+'''
 
+   return (type(query)), query
