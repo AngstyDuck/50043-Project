@@ -55,9 +55,8 @@ def create_app():
             )
     
     with app.app_context():
-        import reviews
-        # import app.modules.books
+        import reviews, books
         app.register_blueprint(reviews.module)
-        # app.register_blueprint(books.module)
+        app.register_blueprint(books.module)
 
         return app
