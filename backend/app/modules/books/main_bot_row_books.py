@@ -45,37 +45,39 @@ def _main_bot_row_books(start, seed):
             if averageRating:
                 averageRating = float(averageRating)
 
-        temp['averageRating'] = averageRating
+                temp['averageRating'] = averageRating
 
-        if 'imUrl' in j:
-            temp['imUrl'] = j['imUrl']
-        else:
-            temp['imUrl'] = None
+                if 'imUrl' in j:
+                    temp['imUrl'] = j['imUrl']
+                else:
+                    temp['imUrl'] = None
 
-        temp['categories'] = j['categories']
+                temp['categories'] = j['categories']
 
-        final_related_list = []
-        if 'related' in j:
-            related = j['related']
-            related_list = []
+                final_related_list = []
+                if 'related' in j:
+                    related = j['related']
+                    related_list = []
 
-            for a in related:
-                for b in related[a]:
-                        related_list.append(b)
+                    for a in related:
+                        for b in related[a]:
+                                related_list.append(b)
 
-            related_results = metadata.find( { 'asin': { '$in': related_list } }, { 'asin':1, 'imUrl':1} )
+                    related_results = metadata.find( { 'asin': { '$in': related_list } }, { 'asin':1, 'imUrl':1} )
 
-            for k in related_results:
-                temp1 = {}
-                temp1['asin'] = k['asin']
-                temp1['imUrl'] = k['imUrl']
-                final_related_list.append(temp1)
-            temp['related'] = final_related_list
+                    for k in related_results:
+                        temp1 = {}
+                        temp1['asin'] = k['asin']
+                        temp1['imUrl'] = k['imUrl']
+                        final_related_list.append(temp1)
+                    temp['related'] = final_related_list
 
-        else:
-            temp['related'] = None
+                else:
+                    temp['related'] = None
 
-        outerlist.append(temp)
+                outerlist.append(temp)
+            else:
+                outerlist.append(None)
 
     finaldict['books'] = outerlist
 
