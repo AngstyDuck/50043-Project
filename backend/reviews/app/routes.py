@@ -6,7 +6,9 @@ from time import sleep
 import sys
 from pymongo import MongoClient
 
-client = MongoClient('mongodb://172.18.0.1:43074/')
+client = MongoClient('mongodb://root:123456@mongoproj:27017/AMAZON?authSource=admin')
+# client = MongoClient('mongodb://user:password@mongoproj:27017/AMAZON?authSource=admin')
+# client = MongoClient('mongodb://172.19.0.1:43074/AMAZON')
 mongo = client.AMAZONMETADATA
 
 
@@ -51,18 +53,22 @@ def displayData(index):
 @app.route("/home/<type>/<asin>")
 def displayMeta(asin,type):
     # online_users = mongo.db.users.find({"online": True})
-    try:
-        metadata = mongo.AMAZONMETADATA.find({'asin': asin})
-        results = []
-        for d in metadata:
-            results.append(d[type])
-        # app.logger.info('Processing MONGO request')
-        # log('Processing MONGO request')
-        return f'{results[0]} displayed'
-    except Exception as e:
-        # app.logger.info('Error 404')
-        # log('Error 404')
-        return str(e)
+    # try:
+    print('reached here')
+    metadata = mongo.AMAZONMETADATA.find({'asin': asin})
+    print('reached after declaration')
+    results = []
+    for d in metadata:
+        results.append(d[type])
+    print('Reached here after for loop')
+    # app.logger.info('Processing MONGO request')
+    # log('Processing MONGO request')
+    return f'{results[0]} displayed'
+    # except Exception as e:
+    #     # app.logger.info('Error 404')
+    #     # log('Error 404')
+    #     print(str(e))
+    #     return
 #
 # @app.route('/log')
 # def stream():
