@@ -18,10 +18,11 @@ global PyMySQL
 
 def create_app():
     """
-    App factory
+    App factory 
     """
     # initialize core application
     app = Flask(__name__, instance_relative_config=False)
+    app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True  # PRETTY JSON AW YIS
 
     # add config values
     flask_env = os.environ["FLASK_ENV"]
