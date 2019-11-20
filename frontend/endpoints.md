@@ -262,3 +262,26 @@ e.g. /single_book/B0070YQGSO
 	}
 }
 ```
+### GET /search_books/{{SEARCH_TEXT}}/
+/search_books/Faux Leather
+Do a comb through the database and give first books that give the limiting the amount of books to 20.
+
+example:
+```json
+{
+	"books": [{
+		"title": "Faux Leather Kindle Sleeve Case for Kindle (Fits 9.7&quot; Display, Latest Generation Kindle DX) - Yellow (Smooth finish)",
+		"asin": "B002HWRIIQ",
+		"averageRating": 4.6,
+		"imUrl": "http://ecx.images-amazon.com/images/I/513mtcKv9HL._BO2,204,203,200_PIsitb-sticker-v3-big,TopRight,0,-55_SX278_SY278_PIkin4,BottomRight,1,22_AA300_SH20_OU01_.jpg",
+		"categories": [
+			["Books", "Business & Money", "Job Hunting & Careers", "Guides"],
+			["Books", "Business & Money", "Job Hunting & Careers", "Job Hunting"],
+			["Books", "Business & Money", "Job Hunting & Careers", "Resumes"],
+			["Kindle Store", "KindlQe eBooks", "Business & Money", "Job Hunting & Careers", "Career Guides"],
+			["Kindle Store", "Kindle eBooks", "Business & Money", "Job Hunting & Careers", "Job Hunting"],
+			["Kindle Store", "Kindle eBooks", "Business & Money", "Job Hunting & Careers", "Resumes"]
+		]
+	}]
+}
+```
