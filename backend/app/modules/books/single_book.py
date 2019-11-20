@@ -1,6 +1,6 @@
-from app import sqlalchem
+#from app import sqlalchem
 from flask import jsonify
-from sqlalchemy import func
+#from sqlalchemy import func
 import sys
 import json
 import copy
@@ -9,57 +9,71 @@ from flask import Flask
 from flask import current_app as app
 
 def _single_book(asin):
-    query = "SELECT avg(overall) FROM {0} GROUP BY asin WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], str(asin))
-   '''
-    averageRating = sqlalchem.session.query(func.avg(amazonreviews.overall)).group_by(amazonreviews.asin).filter_by(asin=asin).scalar()
-    met_data = metadata.find_one({"asin": asin})
+    asin = str(asin)
+    query = "SELECT asin, avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
+    avgRatingInt = 0
 
-    final_related_list = []
-    if 'related' in met_data:
-        related = met_data['related']
-        related_list = []
+    connection = app.config["PYMYSQL_CONNECTION"].cursor()
+    with connection as cursor:
+        cursor.execute(query)
+        query_result = cursor.fetchall()
 
-        for i in related:
+        if query_result is not None:
+            avgRating = query_result[0]['avg(overall)']
+            avgRatingInt = float(avgRating)
+        else:
+            avgRatingInt = 0
+
+    connectionMongo = app.config["MONGODB_CLIENT"]
+    mongodb = connectionMongo['metadata']
+    metadata = mongodb['metadata']
+
+    mongo_result = metadata.find_one({"asin": asin})
+
+    if mongo_result is not None:
+        final_related_list = []
+        if 'related' in mongo_result:
+            related = mongo_result['related']
+            related_list = []
+
+            for i in related:
                 for j in related[i]:
-                        related_list.append(j)
+                    related_list.append(j)
 
-        related_results = metadata.find( { 'asin': { '$in': related_list } } )
+            related_results = metadata.find( { 'asin': { '$in': related_list } } )
 
-        for k in related_results:
-            temp = {}
-            temp['asin'] = k['asin']
-            temp['imUrl'] = k['imUrl']
-            final_related_list.append(temp)
+            for k in related_results:
+                temp = {}
+                temp['asin'] = k['asin']
+                temp['imUrl'] = k['imUrl']
+                final_related_list.append(temp)
 
+        output = {}
+        inner = {}
+        inner['asin'] = mongo_result['asin']
 
-    output = {}
-    inner = {}
-    inner['asin'] = met_data['asin']
+        if 'price' in mongo_result:
+            inner['price'] = mongo_result['price']
+        else:
+            inner['price'] = None
 
-    if 'price' in met_data:
-        inner['price'] = met_data['price']
+        if avgRatingInt is not None:
+            inner['averageRating'] = round(avgRatingInt,2)
+        else:
+            inner['averageRating'] = None
+
+        if 'imUrl' in mongo_result:
+            inner['imUrl'] = mongo_result['imUrl']
+        else:
+            inner['imUrl'] = None
+
+        inner['related'] = final_related_list
+
+        inner['catergories'] = mongo_result['categories']
+
+        output['book'] = inner
+
     else:
-        inner['price'] = None
-
-    if averageRating is not None:
-        inner['averageRating'] = round(float(averageRating),2)
-    else:
-        inner['averageRating'] = None
-
-    if 'imUrl' in met_data:
-        inner['imUrl'] = met_data['imUrl']
-    else:
-        inner['imUrl'] = None
-
-    inner['related'] = final_related_list
-
-    inner['catergories'] = met_data['categories']
-
-    output['book'] = inner
-
-    print(output)
+        output = None
 
     return jsonify(output)
-'''
-
-   return (type(query)), query
