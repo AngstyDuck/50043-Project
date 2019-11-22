@@ -45,13 +45,6 @@ import Book from "../components/Book.vue";
 import EventBus from "../EventBus";
 
 export default {
-  props:['searchWord'],
-  watch: {
-    '$route' (to,from) {
-      this.searchtext1 = to.params.searchtext
-      this.getBooks();
-    }
-  },
   components: {
     Book
   },
@@ -59,20 +52,16 @@ export default {
     bookDialog: false,
     books: [],
     selectedBook: null,
-    loadingBookList: true,
-    searchtext1: ""
+    loadingBookList: true
   }),
   methods: {
-    getBooks(searchtext1) {
-      this.loadingBookList = true;
-      const payload = {searchtext:searchtext};
-      this.$store.dispatch("store/search_books", payload).then(response => {
+    getBooks() {
+      this.$store.dispatch("store/book_list", {}).then(response => {
         if (response != 0) {
           this.books = response.books;
           this.loadingBookList = false;
         } else {
-          console.log("Error retrieving searched books_list");
-          console.log(this.searchtext1)
+          console.log("Error retrieving book_list");
         }
       });
     },
@@ -82,9 +71,6 @@ export default {
       console.log(this.selectedBook);
       this.bookDialog = true;
     }
-  },
-  created() {
-    this.searchtext1 = this.$route.params.searchtext
   },
   mounted() {
     this.getBooks();
