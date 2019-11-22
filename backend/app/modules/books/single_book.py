@@ -9,9 +9,11 @@ from flask import Flask
 from flask import current_app as app
 
 def _single_book(asin):
+    print("ping - _single_book")
     asin = str(asin)
     query = "SELECT asin, avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
     avgRatingInt = 0
+    output = {}
 
     connection = app.config["PYMYSQL_CONNECTION"].cursor()
     with connection as cursor:
@@ -23,6 +25,7 @@ def _single_book(asin):
             avgRatingInt = float(avgRating)
         else:
             avgRatingInt = 0
+    cursor.close()
 
     connectionMongo = app.config["MONGODB_CLIENT"]
     mongodb = connectionMongo['metadata']
@@ -48,7 +51,6 @@ def _single_book(asin):
                 temp['imUrl'] = k['imUrl']
                 final_related_list.append(temp)
 
-        output = {}
         inner = {}
         inner['asin'] = mongo_result['asin']
 
@@ -74,6 +76,6 @@ def _single_book(asin):
         output['book'] = inner
 
     else:
-        output = None
+        output['book'] = {}
 
     return jsonify(output)
