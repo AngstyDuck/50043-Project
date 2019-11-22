@@ -1,7 +1,7 @@
 import axiosInit from "axios";
 
 const axios = axiosInit.create({
-  baseURL: "https://20872d34-b4d4-4713-a749-1b89a76bc017.mock.pstmn.io",
+  baseURL: "https://abacc864-9ba6-476e-b926-00ae26816334.mock.pstmn.io",
   headers: {
     "Content-Type": "application/json"
   }
