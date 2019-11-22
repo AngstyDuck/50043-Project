@@ -334,8 +334,6 @@ export default {
       };
       this.$store.dispatch("store/helpful_review", payload).then(response => {
         if (response != 0) {
-          this.reviews = response.reviews;
-          this.loadingReviewList = false;
         } else {
           console.log("Error marking review as helpful");
         }
