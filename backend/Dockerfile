@@ -14,7 +14,7 @@ RUN pip3 install -r requirements.txt
 EXPOSE 3306 5000 27017
 
 # Set flask env
-ENV FLASK_ENV="docker"
+ENV FLASK_ENV="local"
 
 # Run app.py when the container launches
 CMD python3 -m flask run

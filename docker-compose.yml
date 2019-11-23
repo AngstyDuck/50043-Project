@@ -17,4 +17,3 @@ services:
                         - ${VUEJS_PORT}
                 ports:
                         - ${VUEJS_PORT}:${VUEJS_PORT}
-                command: ["nginx", "-g", "daemon off;"]
