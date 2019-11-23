@@ -4,10 +4,22 @@ services:
     build: .
     links:
       - mysql
-      - mongo
+      - mongoproj:database
     ports:
       - "5000:5000"
+    depends_on:
+      - mongoproj
     command: python -u reviews.py
+    # environment:
+      # APP_ENV: "prod"
+      # APP_DEBUG: "False"
+      # APP_PORT: 5000
+      # MONGODB_DATABASE: AMAZON
+      # MONGODB_USERNAME: user
+      # MONGODB_PASSWORD: password
+      # MONGODB_HOSTNAME: mongo
+    networks:
+      - backend
   mysql:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
@@ -23,10 +35,31 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: password
       # Password for root access
     volumes:
-      - /var/lib/mysql
-  mongo:
-    image: mongo:latest
+      - ./sql-dump:/docker-entrypoint-initdb.d
+  mongoproj:
+    # image: mongo:3.6.3
+    build: ./mongo-seed
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: 123456
     volumes:
-      - /var/lib/mongodb
+      - ./mongo-seed:/mongo-seed
+    # command:
+    #   /mongo-seed/import.sh
     ports:
-      - "4545:27017"
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+      # - "43074:27017"
+    # environment:
+    #   CONN_NAME: test
+    #   DB_HOST: mongo
+    #   DB_PORT: 27017
+      # DB_PORT: 43074
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: "bridge"
