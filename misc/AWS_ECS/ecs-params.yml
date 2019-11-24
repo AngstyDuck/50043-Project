@@ -1,0 +1,9 @@
+version: 1
+task_definition:
+  services:
+    backend:
+      cpu_shares: 100
+      mem_limit: 524288000
+    frontend:
+      cpu_shares: 100
+      mem_limit: 524288000

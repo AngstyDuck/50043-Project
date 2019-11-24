@@ -1,0 +1,6 @@
+version: "3"
+services:
+        frontend:
+                image: 277965450838.dkr.ecr.ap-southeast-1.amazonaws.com/database-project-frontend
+                ports:
+                        - ${VUEJS_PORT}:${VUEJS_PORT}

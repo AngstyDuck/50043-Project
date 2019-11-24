@@ -1,19 +1,13 @@
 version: "3"
 services:
         backend:
-                build: ./backend
-                expose:
-                        - ${REST_PORT}
-                        - ${MYSQL_PORT}
-                        - ${MONGODB_PORT}
+                image: 277965450838.dkr.ecr.ap-southeast-1.amazonaws.com/database-project-backend
                 ports:
                         - ${REST_PORT}:${REST_PORT}
+                        - ${MYSQL_PORT}:${MYSQL_PORT}
                         - ${MONGODB_PORT}:${MONGODB_PORT}
                 command: python3 -m flask run --host=0.0.0.0 --port=${REST_PORT}
         frontend:
-                build: ./frontend/ebook
-                expose:
-                        - ${VUEJS_PORT}
+                image: 277965450838.dkr.ecr.ap-southeast-1.amazonaws.com/database-project-frontend
                 ports:
                         - ${VUEJS_PORT}:${VUEJS_PORT}
-
