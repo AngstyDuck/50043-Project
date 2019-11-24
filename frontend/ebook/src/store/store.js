@@ -121,7 +121,7 @@ const actions = {
   },
   search_books({ commit }, payload) {
     return axios
-      .get("/search_book/" + payload.asin, payload)
+      .get("/search_books/" + payload.searchtext, payload)
       .then(response => {
         console.log(response);
         if (response.status === 200) {

@@ -9,7 +9,7 @@
     </div>
     <v-container v-else>
       <v-row>
-        <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
+        <v-col v-for="(book,index) in books" v-if="index <= 19" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
           <v-hover v-slot:default="{ hover }">
             <v-card
               :elevation="hover ? 12 : 2"
@@ -45,10 +45,9 @@ import Book from "../components/Book.vue";
 import EventBus from "../EventBus";
 
 export default {
-  props:['searchWord'],
   watch: {
     '$route' (to,from) {
-      this.searchtext1 = to.params.searchtext
+      this.searchtext = to.params.searchtext;
       this.getBooks();
     }
   },
@@ -60,19 +59,20 @@ export default {
     books: [],
     selectedBook: null,
     loadingBookList: true,
-    searchtext1: ""
+    searchtext: ""
   }),
   methods: {
-    getBooks(searchtext1) {
+    getBooks(searchtext) {
       this.loadingBookList = true;
-      const payload = {searchtext:searchtext};
+      const payload = { searchtext: this.searchtext };
       this.$store.dispatch("store/search_books", payload).then(response => {
         if (response != 0) {
           this.books = response.books;
           this.loadingBookList = false;
+          console.log(this.books);
         } else {
           console.log("Error retrieving searched books_list");
-          console.log(this.searchtext1)
+          console.log(this.searchtext);
         }
       });
     },
@@ -84,7 +84,7 @@ export default {
     }
   },
   created() {
-    this.searchtext1 = this.$route.params.searchtext
+    this.searchtext = this.$route.params.searchtext;
   },
   mounted() {
     this.getBooks();
