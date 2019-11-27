@@ -17,3 +17,29 @@ services:
                         - ${VUEJS_PORT}
                 ports:
                         - ${VUEJS_PORT}:${VUEJS_PORT}
+        mongod:
+                build: ./mongod
+                ports:
+                        - ${MONGODB_PORT}:${MONGODB_PORT}
+                environment:
+                        - MONGO_INITDB_ROOT_USERNAME=user
+                        - MONGO_INITDB_ROOT_PASSWORD=password
+                        - MONGO_INITDB_DATABASE=AMAZON
+        mysql:
+          # image: mysql:5.7
+          build: ./mysqld
+          # command:
+          command: --default-authentication-plugin=mysql_native_password
+          restart: always
+          ports:
+            - "32000:3306"
+          environment:
+            MYSQL_DATABASE: AMAZON
+            MYSQL_USER: user
+            # You can use whatever password you like
+            MYSQL_PASSWORD: password
+            MYSQL_ALLOW_EMPTY_PASSWORD: password
+            MYSQL_RANDOM_ROOT_PASSWORD: password
+            # Password for root access
+          volumes:
+            - ./mysqld/sql-dump:/docker-entrypoint-initdb.d
