@@ -1,6 +1,0 @@
-INSTRUCTIONS TO RUN DOCKER
-
-1. COPY OVER amazon.sql to current directory
-  - amazon.sql is the sql dump from the mysql MYSQL_DATABASE
-2. run docker-compose build
-3. run docker-compose up
