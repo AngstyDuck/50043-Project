@@ -16,7 +16,7 @@ module = Blueprint("reviews", __name__)
 def _test():
     return jsonify({"test message": "hello"})
 
-module.add_url_rule("/review_list/<asin_number>", view_func=_review_list, methods=["GET"])
+module.add_url_rule("/review_list", view_func=_review_list, methods=["GET"])
 module.add_url_rule("/post_new_review", view_func=_post_new_review, methods=["POST"])
 module.add_url_rule("/test", view_func=_test, methods=["GET"])
 
