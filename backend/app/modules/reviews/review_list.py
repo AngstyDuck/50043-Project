@@ -2,8 +2,10 @@ import sys
 import json
 import copy
 from datetime import datetime
-from flask import Flask
+from flask import Flask, request
 from flask import current_app as app
+from app.logger import request_log_wrapper
+
 
 sample_output = {"review":[
                     {
@@ -110,8 +112,9 @@ sample_output = {"review":[
                     }
                 ]}
 
-def _review_list(asin_number):
+def _review_list():
     print("ping - _review_list")
+    asin_number = request.args.get("asin_number")
     query = "SELECT * FROM {0} WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], str(asin_number))
     connection = app.config["PYMYSQL_CONNECTION"].cursor()
     with connection as cursor:
@@ -142,5 +145,9 @@ def _review_list(asin_number):
         output = json.dumps(output, sort_keys=True, indent=4)
 
     cursor.close()
+
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
 
     return output
