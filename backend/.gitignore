@@ -125,7 +125,3 @@ dmypy.json
 .pyre/
 
 .vscode/
-
-
-# added by jun de
-venvBackend/
