@@ -26,7 +26,6 @@ def _post_new_review():
         query_result = cursor.fetchall()
         print(query_result)
     connection.commit()
-    cursor.close()
 
 
     return {"message": "OK"}
