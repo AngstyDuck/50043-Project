@@ -60,7 +60,7 @@ import EventBus from "../EventBus";
 export default {
   watch: {
     '$route' (to,from) {
-      this.searchtext = to.params.searchtext;
+      this.filtertext = to.params.filtertext;
       this.getBooks();
     }
   },
@@ -72,7 +72,7 @@ export default {
     books: [],
     selectedBook: null,
     loadingBookList: false,
-    searchtext: "",
+    filtertext: "",
     categories: [],
     category: "",
     collectionLoading: false,
@@ -98,14 +98,14 @@ export default {
         }
       });
     },
-    getBooks(searchtext) {
+    getBooks(filtertext) {
       this.collectionLoading = true;
-      const payload = { searchtext: this.searchtext };
-      this.$store.dispatch("store/search_books", {
+      const payload = { filtertext: this.filtertext };
+      this.$store.dispatch("store/filter_books", {
           params: {
             start_list: this.books.length,
             end_list: this.books.length + this.fetchLength - 1,
-            searchtext: this.searchtext
+            filtertext: this.filtertext
           }
         }).then(response => {
         if (response != 0) {
@@ -114,7 +114,7 @@ export default {
           console.log(this.books);
         } else {
           console.log("Error retrieving searched books_list");
-          console.log(this.searchtext);
+          console.log(this.filtertext);
         }
       });
     },
@@ -126,7 +126,7 @@ export default {
     }
   },
   created() {
-    this.searchtext = this.$route.params.searchtext;
+    this.filtertext = this.$route.params.filtertext;
   },
   mounted() {
     this.getBooks();

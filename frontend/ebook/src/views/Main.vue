@@ -11,6 +11,11 @@
       <div class="top-row">
         <v-container>
           <v-row>
+            <v-col v-for="category in categories" v-bind:key="category.category">
+              <v-btn @click="filterClick(category.category)" text>{{ category.category }}</v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
             <v-col class="section-title">Our Recommendations</v-col>
           </v-row>
           <v-row>
@@ -190,9 +195,29 @@ export default {
     bestBooks: [],
     seed: 0,
     fetchLength: 18,
-    collectionLoading: false
+    collectionLoading: false,
+    categories: [{category: 'default 1'}, {category: 'default 2'}, {category: 'default 3'}, {category: 'default 4'}],
+    category: ""
   }),
   methods: {
+    filterClick(category) {
+      this.category = category
+      if (this.$router.currentRoute.path != "/filter"+ this.category ) {
+        this.$router.push({ path: "/filter/" + this.category });
+      } else {
+        location.reload();
+      }
+    },
+    getFilterList() {
+      this.$store.dispatch("store/categories", {}).then(response => {
+        if (response != 0) {
+          this.categories = response.categories;
+        } else {
+          console.log("Error retrieving categories");
+          console.log(this.categories);
+        }
+      });
+    },
     getTopRowBooks() {
       this.$store.dispatch("store/main_top_row_books", {}).then(response => {
         if (response != 0) {
@@ -237,6 +262,7 @@ export default {
   },
   mounted() {
     this.seed = Math.floor(Math.random() * 1000 + 1);
+    this.getFilterList();
     this.getTopRowBooks();
     this.getBotRowBooks();
     EventBus.$on("CHANGE_BOOK", payload => {

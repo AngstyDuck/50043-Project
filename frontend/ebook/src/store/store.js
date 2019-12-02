@@ -120,8 +120,9 @@ const actions = {
       });
   },
   search_books({ commit }, payload) {
+    console.log(payload)
     return axios
-      .get("/search_books/" + payload.searchtext, payload)
+      .get("/search_books", payload)
       .then(response => {
         console.log(response);
         if (response.status === 200) {
@@ -133,7 +134,38 @@ const actions = {
       .catch(() => {
         return 0;
       });
-  }
+  },
+  filter_books({ commit }, payload) {
+    console.log(payload)
+    return axios
+      .get("/filter_books", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  categories({ commit }, payload) {
+    return axios
+      .get("/categories", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
 };
 
 const mutations = {};
