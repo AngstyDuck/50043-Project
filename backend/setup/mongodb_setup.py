@@ -11,7 +11,7 @@ METADATADIR = os.path.abspath(__file__ + "/../../../../50043-Project-lfs/process
 metadata = MongodbCommon("metadata", "metadata")
 with open(METADATADIR, "r") as readFile:
     for line in readFile:
-        jsonDict = json.loads(readFile.readline())
+        jsonDict = json.loads(line)
 
         metadata.postOne(jsonDict)
     print("Doneski")
