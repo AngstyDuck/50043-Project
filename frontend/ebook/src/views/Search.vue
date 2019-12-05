@@ -128,9 +128,11 @@ export default {
       this.bookDialog = true;
     }
   },
+
   created() {
     this.searchtext = this.$route.params.searchtext;
   },
+
   mounted() {
     this.getBooks();
     EventBus.$on("CHANGE_BOOK", payload => {

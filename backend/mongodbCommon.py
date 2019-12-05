@@ -2,40 +2,28 @@ from pymongo import MongoClient
 import sys
 import json
 import re
+from config import DevConfig
 
+config = DevConfig()
 
-client = MongoClient("localhost", 27017)
+mongo_client = MongoClient(config.MONGO_HOST, 27017)
 
-metadataRawDir = "./meta_Kindle_Store.json"
-
-LOGDBNAME = "logs"
-LOGCOLLECTIONNAME = "logs"
-METADATADBNAME = "metadata"
-METADATACOLLECTIONNAME = "metadata"
-SAMPLEDBNAME = "sample"
-SAMPLECOLLECTIONNAME = "sample"
-
-
+# [database object, collection object]
+collections_databases = {
+    "logs": [mongo_client.logs, mongo_client.logs.logs],
+    "metadata": [mongo_client.metadata, mongo_client.metadata.metadata],
+    "test": [mongo_client.test, mongo_client.test.test]
+}
 
 class MongodbCommon:
     def __init__(self, dbName, collectionName):
         self.dbName = None
         self.collectionName = None
 
+        assert dbName == collectionName and dbName in collections_databases.keys()
 
-        assert (dbName == LOGDBNAME and collectionName == LOGCOLLECTIONNAME) or \
-            (dbName == METADATADBNAME and collectionName == METADATACOLLECTIONNAME) or \
-            (dbName == SAMPLEDBNAME and collectionName == SAMPLECOLLECTIONNAME)
-
-        if dbName == LOGDBNAME:
-            self.dbName = client.logsDb
-            self.collectionName = self.dbName.logsCollection
-        elif dbName == METADATADBNAME:
-            self.dbName = client.metadataDb
-            self.collectionName = self.dbName.metadataCollection
-        elif dbName == SAMPLEDBNAME:
-            self.dbName = client.sampleDb
-            self.collectionName = self.dbName.sampleCollection
+        self.dbName = collections_databases[dbName][0]
+        self.collectionName = collections_databases[dbName][1]
 
 
     def getOne(self, toQuery):
@@ -53,3 +41,5 @@ class MongodbCommon:
     def deleteOne(self, toQuery):
         self.collectionName.delete_one(toQuery)
 
+    def dropDb(self):
+        mongo_client.drop_database(self.dbName)
