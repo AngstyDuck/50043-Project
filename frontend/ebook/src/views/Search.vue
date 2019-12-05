@@ -76,45 +76,35 @@ export default {
     categories: [],
     category: "",
     collectionLoading: false,
-    fetchLength: 21
+    fetchLength: 21,
+    filtertext: ""
   }),
   methods: {
     filterClick(category) {
       this.category = category
-      if (this.$router.currentRoute.path != "/filter"+ this.category ) {
-        this.$router.push({ path: "/filter/" + this.category });
-      } else {
-        location.reload();
-      }
+      console.log(this.searchtext);
+      console.log(this.category);
+      getBooks(this.searchtext,this.category)
     },
-    getFilterList() {
-      this.$store.dispatch("store/categories", {}).then(response => {
-        if (response != 0) {
-          this.categories = response.categories;
-          console.log(response.categories);
-        } else {
-          console.log("Error retrieving categories");
-          console.log(this.categories);
-        }
-      });
-    },
-    getBooks(searchtext) {
+    getBooks(searchtext,filtertext) {
       this.collectionLoading = true;
-      const payload = { searchtext: this.searchtext };
       this.$store.dispatch("store/search_books", {
           params: {
             start_list: this.books.length,
             end_list: this.books.length + this.fetchLength - 1,
-            searchtext: this.searchtext
+            searchtext: this.searchtext,
+            filtertext: this.filtertext
           }
         }).then(response => {
         if (response != 0) {
           this.books.push.apply(this.books,response.books);
+          this.categories = response.categories
           this.collectionLoading = false;
           console.log(this.books);
         } else {
           console.log("Error retrieving searched books_list");
           console.log(this.searchtext);
+          console.log(this.categories);
         }
       });
     },
@@ -130,7 +120,6 @@ export default {
   },
   mounted() {
     this.getBooks();
-    this.getFilterList();
     EventBus.$on("CHANGE_BOOK", payload => {
       this.selectBook(payload);
     });
