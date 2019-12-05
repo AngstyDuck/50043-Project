@@ -9,9 +9,18 @@
     </div>
     <v-container v-else>
       <v-row>
-        <v-col v-for="category in categories" v-bind:key="category.category">
-          <v-btn @click="filterClick(category.category)" text>{{ category.category }}</v-btn>
-        </v-col>
+        <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header class="dropheader">Categories</v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-row>
+                <v-col v-for="category in categories" v-bind:key="category.category">
+                  <v-btn @click="filterClick(category.category)" rounded>{{ category.category }}</v-btn>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-row>
       <v-row>
         <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
@@ -51,6 +60,9 @@
   padding-top: 20%;
   font-size: 2rem;
 }
+.dropheader {
+  font-size: 2rem;
+}
 </style>
 
 <script>
@@ -82,9 +94,10 @@ export default {
   methods: {
     filterClick(category) {
       this.category = category
+      this.books = []
       console.log(this.searchtext);
       console.log(this.category);
-      getBooks(this.searchtext,this.category)
+      this.getBooks(this.searchtext,this.category)
     },
     getBooks(searchtext,filtertext) {
       this.collectionLoading = true;

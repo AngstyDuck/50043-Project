@@ -11,9 +11,18 @@
       <div class="top-row">
         <v-container>
           <v-row>
-            <v-col v-for="category in categories" v-bind:key="category.category">
-              <v-btn @click="filterClick(category.category)" text>{{ category.category }}</v-btn>
-            </v-col>
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header class="dropheader">Categories</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col v-for="category in categories" v-bind:key="category.category">
+                      <v-btn @click="filterClick(category.category)" rounded>{{ category.category }}</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-row>
           <v-row>
             <v-col class="section-title">Our Recommendations</v-col>
@@ -146,6 +155,9 @@
 .section-title {
   font-size: 2rem;
   font-weight: 400;
+}
+.dropheader {
+  font-size: 2rem;
 }
 </style>
 
