@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="bookDialog" min-height="900" width="1700">
+    <v-dialog v-if="selectedBook" v-model="bookDialog" min-height="900" width="1700">
       <Book :book="selectedBook" />
     </v-dialog>
     <div class="loading-top" v-if="loadingBookList">
@@ -261,26 +261,10 @@ export default {
         });
     },
     selectBook(book) {
-      this.selectedBook = null;
-      this.setBook(book.asin);
-    },
-    setBook(asin) {
+      this.selectedBook = book;
+      EventBus.$emit("SELECT_BOOK", book);
+      console.log(this.selectedBook);
       this.bookDialog = true;
-      EventBus.$emit("FULL_LOADING_TRUE", "");
-      const payload = { asin: asin };
-      this.$store.dispatch("store/single_book", payload).then(response => {
-        if (response != 0) {
-          console.log(response)
-          EventBus.$emit("FULL_LOADING_FALSE", "");
-          const book = response.book;
-          this.selectedBook = book;
-          EventBus.$emit("LOAD_REVIEWS", book);
-        } else {
-          console.log("Error retrieving single book");
-          EventBus.$emit("FULL_LOADING_FALSE", "");
-          this.bookDialog = false;
-        }
-      });
     },
     onScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
       if (scrollTop + clientHeight >= scrollHeight) {
@@ -294,7 +278,7 @@ export default {
     this.getTopRowBooks();
     this.getBotRowBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
-      this.setBook(payload);
+      this.selectBook(payload);
     });
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
       this.bookDialog = false;
