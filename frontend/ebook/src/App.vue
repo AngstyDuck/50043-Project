@@ -44,6 +44,7 @@
           dense
           v-model="searchWord"
           v-on:keyup.enter="searchEnter"
+          v-bind:searchWord='searchWord'
         ></v-text-field>
       </v-app-bar>
 
@@ -84,8 +85,10 @@ export default {
       }
     },
     searchEnter() {
-      if (this.$router.currentRoute.path != "/search") {
-        this.$router.push({ path: "/search" });
+      if (this.$router.currentRoute.path != "/search"+ this.searchWord ) {
+        this.$router.push({ path: "/search/" + this.searchWord });
+      } else {
+        location.reload();
       }
     },
     goHome() {

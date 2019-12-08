@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-if="selectedBook" v-model="bookDialog" min-height="900" width="1700">
+    <v-dialog v-model="bookDialog" min-height="900" width="1700">
       <Book :book="selectedBook" />
     </v-dialog>
     <div class="loading-top" v-if="loadingBookList">
@@ -10,6 +10,20 @@
     <div v-else>
       <div class="top-row">
         <v-container>
+          <v-row>
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header class="dropheader">Categories</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col v-for="category in categories" v-bind:key="category.category">
+                      <v-btn @click="filterClick(category.category)" rounded>{{ category.category }}</v-btn>
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-row>
           <v-row>
             <v-col class="section-title">Our Recommendations</v-col>
           </v-row>
@@ -142,6 +156,9 @@
   font-size: 2rem;
   font-weight: 400;
 }
+.dropheader {
+  font-size: 2rem;
+}
 </style>
 
 <script>
@@ -190,7 +207,14 @@ export default {
     bestBooks: [],
     seed: 0,
     fetchLength: 18,
-    collectionLoading: false
+    collectionLoading: false,
+    categories: [
+      { category: "default 1" },
+      { category: "default 2" },
+      { category: "default 3" },
+      { category: "default 4" }
+    ],
+    category: ""
   }),
   methods: {
     getTopRowBooks() {
@@ -224,23 +248,58 @@ export default {
         });
     },
     selectBook(book) {
-      this.selectedBook = book;
-      EventBus.$emit("SELECT_BOOK", book);
-      console.log(this.selectedBook);
+      this.selectedBook = null;
+      this.setBook(book.asin);
+    },
+    setBook(asin) {
       this.bookDialog = true;
+      EventBus.$emit("FULL_LOADING_TRUE", "");
+      const payload = { asin: asin };
+      this.$store.dispatch("store/single_book", payload).then(response => {
+        if (response != 0) {
+          console.log(response);
+          EventBus.$emit("FULL_LOADING_FALSE", "");
+          const book = response.book;
+          this.selectedBook = book;
+          EventBus.$emit("LOAD_REVIEWS", book);
+        } else {
+          console.log("Error retrieving single book");
+          EventBus.$emit("FULL_LOADING_FALSE", "");
+          this.bookDialog = false;
+        }
+      });
     },
     onScroll({ target: { scrollTop, clientHeight, scrollHeight } }) {
       if (scrollTop + clientHeight >= scrollHeight) {
         this.loadMorePosts();
       }
+    },
+    getFilterList() {
+      this.$store.dispatch("store/categories", {}).then(response => {
+        if (response != 0) {
+          this.categories = response.categories;
+        } else {
+          console.log("Error retrieving categories");
+          console.log(this.categories);
+        }
+      });
+    },
+    filterClick(category) {
+      this.category = category;
+      if (this.$router.currentRoute.path != "/filter" + this.category) {
+        this.$router.push({ path: "/filter/" + this.category });
+      } else {
+        location.reload();
+      }
     }
   },
   mounted() {
     this.seed = Math.floor(Math.random() * 1000 + 1);
+    this.getFilterList();
     this.getTopRowBooks();
     this.getBotRowBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
-      this.selectBook(payload);
+      this.setBook(payload);
     });
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
       this.bookDialog = false;
