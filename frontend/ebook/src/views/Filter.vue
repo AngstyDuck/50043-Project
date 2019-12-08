@@ -72,7 +72,7 @@ import EventBus from "../EventBus";
 export default {
   watch: {
     $route(to, from) {
-      this.searchtext = to.params.searchtext;
+      this.filtertext = to.params.filtertext;
       this.getBooks();
     }
   },
@@ -84,42 +84,52 @@ export default {
     books: [],
     selectedBook: null,
     loadingBookList: false,
-    searchtext: "",
+    filtertext: "",
     categories: [],
     category: "",
     collectionLoading: false,
-    fetchLength: 21,
-    filtertext: ""
+    fetchLength: 21
   }),
   methods: {
     filterClick(category) {
       this.category = category;
       this.books = [];
-      console.log(this.searchtext);
-      console.log(this.category);
-      this.getBooks(this.searchtext, this.category);
+      if (this.$router.currentRoute.path != "/filter" + this.category) {
+        this.$router.push({ path: "/filter/" + this.category });
+      } else {
+        location.reload();
+      }
     },
-    getBooks(searchtext, filtertext) {
+    getFilterList() {
+      this.$store.dispatch("store/categories", {}).then(response => {
+        if (response != 0) {
+          this.categories = response.categories;
+          console.log(response.categories);
+        } else {
+          console.log("Error retrieving categories");
+          console.log(this.categories);
+        }
+      });
+    },
+    getBooks(filtertext) {
       this.collectionLoading = true;
+      const payload = { filtertext: this.filtertext };
       this.$store
-        .dispatch("store/search_books", {
+        .dispatch("store/filter_books", {
           params: {
             start_list: this.books.length,
             end_list: this.books.length + this.fetchLength - 1,
-            searchtext: this.searchtext,
             filtertext: this.filtertext
           }
         })
         .then(response => {
           if (response != 0) {
             this.books.push.apply(this.books, response.books);
-            this.categories = response.categories;
             this.collectionLoading = false;
             console.log(this.books);
           } else {
             console.log("Error retrieving searched books_list");
-            console.log(this.searchtext);
-            console.log(this.categories);
+            console.log(this.filtertext);
           }
         });
     },
@@ -147,10 +157,11 @@ export default {
     }
   },
   created() {
-    this.searchtext = this.$route.params.searchtext;
+    this.filtertext = this.$route.params.filtertext;
   },
   mounted() {
     this.getBooks();
+    this.getFilterList();
     EventBus.$on("CHANGE_BOOK", payload => {
       this.selectBook(payload);
     });
