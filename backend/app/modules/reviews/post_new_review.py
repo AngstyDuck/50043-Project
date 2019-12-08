@@ -3,6 +3,7 @@ from datetime import datetime
 from flask import current_app as app
 
 def _post_new_review():
+    print("ping - _post_new_review")
     body = request.json
     
     temp_val = []
@@ -25,6 +26,7 @@ def _post_new_review():
         query_result = cursor.fetchall()
         print(query_result)
     connection.commit()
+    cursor.close()
 
 
     return {"message": "OK"}

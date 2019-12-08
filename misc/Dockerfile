@@ -17,10 +17,19 @@ COPY data_analytics /app/data_analytics
 COPY installation_files /app/installation_files
 
 
-COPY ./amazon.sql /app/backend/
 
-CMD mysql -u user -ppassword -e "SET autocommit=0;" AMAZON < amazon.sql
+ADD ./sql-dump/amazon.sql /docker-entrypoint-initdb.d
 
-#AS OF NOW 25-10-2019, MOST UPDATED
+# CMD mysql -u user -ppassword -e "SET autocommit=0;" AMAZON < amazon.sql
+# WORKDIR /app
+#CMD ["/usr/bin/mongod", "-f", "/etc/mongod.conf"]
+#ADD ./mongo-seed/ /app/mongo-seed/
+#CMD python ./mongo-seed/mongo-populate.py
+#RUN /app/mongo-seed/import.sh
+#ENTRYPOINT mongo
+
+CMD curl "mongo:27017"
+
 WORKDIR /app/backend/reviews
+
 CMD export FLASK_APP=reviews

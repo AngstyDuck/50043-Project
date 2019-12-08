@@ -111,6 +111,7 @@ sample_output = {"review":[
                 ]}
 
 def _review_list(asin_number):
+    print("ping - _review_list")
     query = "SELECT * FROM {0} WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], str(asin_number))
     connection = app.config["PYMYSQL_CONNECTION"].cursor()
     with connection as cursor:
@@ -137,7 +138,9 @@ def _review_list(asin_number):
             del i["unixReviewTime"]
             del i["id"]
 
-        output = {"review": query_result_edited}
+        output = {"reviews": query_result_edited}
         output = json.dumps(output, sort_keys=True, indent=4)
 
-        return output
+    cursor.close()
+
+    return output

@@ -22,6 +22,7 @@ from datetime import datetime
 from flask import current_app as app
 
 def _helpful_review():
+    print("ping - _helpful_review")
    # data = {
    # "reviewerID": "A3DE6XGZ2EPADS",
    # "asin": "B000F83SZQ",
@@ -38,5 +39,6 @@ def _helpful_review():
         helpful_.append(int(query_result[0]["helpful"][4])+1)
         cursor.execute("UPDATE {0} SET helpful = \'{1}\' WHERE id =\'{2}\'".format(app.config["MYSQL_TABLE_REVIEWS"],str(helpful_),query_result[0]["id"] ))
     connection.commit()
+    cursor.exit()
     return{"Update": "Done"}
 
