@@ -11,17 +11,17 @@ from flask import current_app as app
 def _single_book(asin):
     print("ping - _single_book")
     asin = str(asin)
-    query = "SELECT asin, avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
+    query = "SELECT avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
     avgRatingInt = 0
     output = {}
 
     connection = app.config["PYMYSQL_CONNECTION"].cursor()
     with connection as cursor:
         cursor.execute(query)
-        query_result = cursor.fetchall()
+        query_result = cursor.fetchone()
 
         if query_result is not None:
-            avgRating = query_result[0]['avg(overall)']
+            avgRating = query_result['avg(overall)']
             avgRatingInt = float(avgRating)
         else:
             avgRatingInt = 0
