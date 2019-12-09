@@ -117,8 +117,8 @@ export default {
   mounted() {
     this.getBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
-      console.log("payload")
-      console.log(payload)
+      console.log("payload");
+      console.log(payload);
       this.setBook(payload);
     });
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
