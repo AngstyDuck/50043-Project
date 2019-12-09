@@ -14,7 +14,7 @@ global MongoDB
 global SQLAlchemy
 global PyMySQL
 
-
+from flask_cors import CORS
 
 def create_app():
     """
@@ -22,6 +22,7 @@ def create_app():
     """
     # initialize core application
     app = Flask(__name__, instance_relative_config=False)
+    CORS(app)
     app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True  # PRETTY JSON AW YIS
 
     # add config values
