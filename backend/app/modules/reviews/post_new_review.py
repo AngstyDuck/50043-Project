@@ -1,6 +1,8 @@
 from flask import request
 from datetime import datetime
 from flask import current_app as app
+from app.logger import request_log_wrapper
+
 
 def _post_new_review():
     print("ping - _post_new_review")
@@ -19,14 +21,16 @@ def _post_new_review():
 
     query = "INSERT INTO {0} (asin, helpful, overall, reviewText, reviewTime, reviewerName, summary, unixReviewTime) VALUES ({1})".format(app.config["MYSQL_TABLE_REVIEWS"], temp_val)
 
-    # print("query: {0}".format(query))
+    # print("------ query: {0}".format(query))
     connection = app.config["PYMYSQL_CONNECTION"]
     with connection.cursor() as cursor:
         cursor.execute(query)
         query_result = cursor.fetchall()
         print(query_result)
     connection.commit()
-    cursor.close()
 
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
 
     return {"message": "OK"}

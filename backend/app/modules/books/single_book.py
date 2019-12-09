@@ -7,21 +7,23 @@ import copy
 from datetime import datetime
 from flask import Flask
 from flask import current_app as app
+from app.logger import request_log_wrapper
+
 
 def _single_book(asin):
     print("ping - _single_book")
     asin = str(asin)
-    query = "SELECT asin, avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
+    query = "SELECT avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
     avgRatingInt = 0
     output = {}
 
     connection = app.config["PYMYSQL_CONNECTION"].cursor()
     with connection as cursor:
         cursor.execute(query)
-        query_result = cursor.fetchall()
+        query_result = cursor.fetchone()
 
         if query_result is not None:
-            avgRating = query_result[0]['avg(overall)']
+            avgRating = query_result['avg(overall)']
             avgRatingInt = float(avgRating)
         else:
             avgRatingInt = 0
@@ -71,11 +73,15 @@ def _single_book(asin):
 
         inner['related'] = final_related_list
 
-        inner['catergories'] = mongo_result['categories']
+        inner['categories'] = mongo_result['categories']
 
         output['book'] = inner
 
     else:
         output['book'] = {}
+
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
 
     return jsonify(output)

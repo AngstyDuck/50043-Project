@@ -3,27 +3,29 @@
     <v-dialog v-model="bookDialog" min-height="900" width="1700">
       <Book :book="selectedBook" />
     </v-dialog>
-    <div class="loading" v-if="loadingBookList">
+    <div class="loading-top" v-if="loadingBookList">
       <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-      <div>Loading books related to {{searchtext}}...</div>
+      <div>Loading {{filtertext}} books...</div>
     </div>
-    <v-container v-else>
-      <v-row>
-        <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
-          <v-hover v-slot:default="{ hover }">
-            <v-card
-              :elevation="hover ? 12 : 2"
-              @click="selectBook(book)"
-              class="mx-auto"
-              max-width="344"
-            >
-              <v-img :src="book.imUrl" min-height="130px"></v-img>
-              <!-- <v-card-title>{{ asin }}</v-card-title> -->
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
-    </v-container>
+    <div v-else>
+      <v-container>
+        <v-row>
+          <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
+            <v-hover v-slot:default="{ hover }">
+              <v-card
+                :elevation="hover ? 12 : 2"
+                @click="selectBook(book)"
+                class="mx-auto"
+                max-width="344"
+              >
+                <v-img :src="book.imUrl" min-height="130px"></v-img>
+                <!-- <v-card-title>{{ asin }}</v-card-title> -->
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -31,7 +33,7 @@
 .book {
   padding: 0 10px;
 }
-.loading {
+.loading-top {
   position: absolute;
   left: 40%;
   text-align: center;
@@ -50,7 +52,7 @@ import EventBus from "../EventBus";
 export default {
   watch: {
     $route(to, from) {
-      this.searchtext = to.params.searchtext;
+      this.filtertext = to.params.filtertext;
       this.getBooks();
     }
   },
@@ -62,18 +64,18 @@ export default {
     books: [],
     selectedBook: null,
     loadingBookList: true,
-    searchtext: "",
-    fetchLength: 21,
-    filtertext: ""
+    filtertext: "",
+    collectionLoading: false,
+    fetchLength: 21
   }),
   methods: {
-    getBooks(searchtext, filtertext) {
+    getBooks(filtertext) {
+      const payload = { filtertext: this.filtertext };
       this.$store
-        .dispatch("store/search_books", {
+        .dispatch("store/filter_books", {
           params: {
             start_list: this.books.length,
             end_list: this.books.length + this.fetchLength - 1,
-            searchtext: this.searchtext,
             filtertext: this.filtertext
           }
         })
@@ -84,7 +86,7 @@ export default {
             console.log(this.books);
           } else {
             console.log("Error retrieving searched books_list");
-            console.log(this.searchtext);
+            console.log(this.filtertext);
           }
         });
     },
@@ -112,13 +114,11 @@ export default {
     }
   },
   created() {
-    this.searchtext = this.$route.params.searchtext;
+    this.filtertext = this.$route.params.filtertext;
   },
   mounted() {
     this.getBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
-      console.log("payload");
-      console.log(payload);
       this.setBook(payload);
     });
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {

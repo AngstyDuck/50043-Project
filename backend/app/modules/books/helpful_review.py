@@ -20,6 +20,8 @@ Only a return status of 200 is needed. The frontend will ignore any body element
 from flask import request
 from datetime import datetime
 from flask import current_app as app
+from app.logger import request_log_wrapper
+
 
 def _helpful_review():
     print("ping - _helpful_review")
@@ -40,5 +42,10 @@ def _helpful_review():
         cursor.execute("UPDATE {0} SET helpful = \'{1}\' WHERE id =\'{2}\'".format(app.config["MYSQL_TABLE_REVIEWS"],str(helpful_),query_result[0]["id"] ))
     connection.commit()
     cursor.exit()
+
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
+
     return{"Update": "Done"}
 

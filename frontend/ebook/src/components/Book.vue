@@ -221,6 +221,10 @@
 </template>
 
 <style scoped>
+.loading {
+  background-color: rgb(73, 73, 73);
+}
+
 .category {
   display: inline-block;
 }
@@ -300,8 +304,15 @@ export default {
     reviews: []
   }),
   mounted() {
-    this.getReviewList(this.book.asin);
-    EventBus.$on("SELECT_BOOK", book => {
+    EventBus.$on("FULL_LOADING_TRUE", payload => {
+      console.log("loading");
+      this.fullLoading = true;
+    });
+    EventBus.$on("FULL_LOADING_FALSE", payload => {
+      console.log("not loading");
+      this.fullLoading = false;
+    });
+    EventBus.$on("LOAD_REVIEWS", book => {
       this.loadingReviewList = true;
       this.reviews = [];
       this.getReviewList(book.asin);
@@ -312,16 +323,7 @@ export default {
       EventBus.$emit("CLOSE_BOOK_DIALOG", "");
     },
     changeBook(asin) {
-      this.fullLoading = true;
-      const payload = { asin: asin };
-      this.$store.dispatch("store/single_book", payload).then(response => {
-        if (response != 0) {
-          EventBus.$emit("CHANGE_BOOK", response.book);
-          this.fullLoading = false;
-        } else {
-          console.log("Error retrieving single book");
-        }
-      });
+      EventBus.$emit("CHANGE_BOOK", asin);
     },
     helpfulButton(review) {
       this.$set(review.helpful, 0, review.helpful[0] + 1);
@@ -334,8 +336,6 @@ export default {
       };
       this.$store.dispatch("store/helpful_review", payload).then(response => {
         if (response != 0) {
-          this.reviews = response.reviews;
-          this.loadingReviewList = false;
         } else {
           console.log("Error marking review as helpful");
         }

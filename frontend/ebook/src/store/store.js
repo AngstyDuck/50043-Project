@@ -1,7 +1,8 @@
 import axiosInit from "axios";
 
 const axios = axiosInit.create({
-	baseURL: "http://BACKEND_IP_ADDR:5000",
+//   baseURL: "http://BACKEND_IP_ADDR:5000",
+	baseURL: "http://127.0.0.1:5000",
   headers: {
     "Content-Type": "application/json"
   }
@@ -13,7 +14,7 @@ const state = {
 
 const actions = {
   main_top_row_books({ commit }, payload) {
-    console.log("activated")
+    console.log("activated");
     return axios
       .get("/main_top_row_books", payload)
       .then(response => {
@@ -29,7 +30,7 @@ const actions = {
       });
   },
   main_bot_row_books({ commit }, payload) {
-    console.log(payload)
+    console.log(payload);
     return axios
       .get("/main_bot_row_books", payload)
       .then(response => {
@@ -61,6 +62,7 @@ const actions = {
   },
   single_book({ commit }, payload) {
     return axios
+    // .get("/single_book/" + "B002HWRR78", payload)
       .get("/single_book/" + payload.asin, payload)
       .then(response => {
         console.log(response);
@@ -111,6 +113,53 @@ const actions = {
         console.log(response);
         if (response.status === 200) {
           return 1;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  search_books({ commit }, payload) {
+    console.log(payload);
+    return axios
+      .get("/search_books", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  filter_books({ commit }, payload) {
+    console.log(payload);
+    return axios
+      .get("/filter_books", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
+        } else {
+          return 0;
+        }
+      })
+      .catch(() => {
+        return 0;
+      });
+  },
+  categories({ commit }, payload) {
+    return axios
+      .get("/categories", payload)
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.data;
         } else {
           return 0;
         }
