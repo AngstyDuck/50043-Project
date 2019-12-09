@@ -6,15 +6,16 @@ instance_id_mongodb=`echo $instances_json | python3 -c "import sys, json; print(
 echo 'Waiting for VMs to spin up, waiting for 35s'
 sleep '35' 
 echo 'Associating IP address'
-aws ec2 associate-address --allocation-id eipalloc-0051798c2bac2680b --instance-id $instance_id_frontendbackend
-aws ec2 associate-address --allocation-id eipalloc-02bd26683a27f8c3d --instance-id $instance_id_mysql
-aws ec2 associate-address --allocation-id eipalloc-0a1a470d36591c123 --instance-id $instance_id_mongodb
+public_ip_frontendbackend=`aws ec2 describe-instances --instance-id $instance_id_frontendbackend | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
+public_ip_mysql=`aws ec2 describe-instances --instance-id $instance_id_mysql | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
+public_ip_mongodb=`aws ec2 describe-instances --instance-id $instance_id_mongodb | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
 public_dns_frontendbackend=`aws ec2 describe-instances --instance-id $instance_id_frontendbackend | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicDnsName'])"`
 public_dns_mysql=`aws ec2 describe-instances --instance-id $instance_id_mysql | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicDnsName'])"`
 public_dns_mongodb=`aws ec2 describe-instances --instance-id $instance_id_mongodb | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicDnsName'])"`
+echo "frontend ip: $public_ip_frontendbackend"
 chmod 400 key1.pem
 echo 'SSH into mysql'
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_frontendbackend 'bash -s' < frontendbackend.sh
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_frontendbackend 'bash -s' < frontendbackend.sh $public_ip_frontendbackend $public_ip_mysql $public_ip_mongodb
 echo 'SSH into mongodb'
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_mysql 'bash -s' < frontendbackend.sh
 echo 'SSH into frontend/backend'
