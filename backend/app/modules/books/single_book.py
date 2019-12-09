@@ -71,7 +71,7 @@ def _single_book(asin):
 
         inner['related'] = final_related_list
 
-        inner['catergories'] = mongo_result['categories']
+        inner['categories'] = mongo_result['categories']
 
         output['book'] = inner
 
