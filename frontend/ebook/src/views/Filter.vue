@@ -5,7 +5,7 @@
     </v-dialog>
     <div class="loading-top" v-if="loadingBookList">
       <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-      <div>Loading {{filtertext}} books...</div>
+      <div>Loading books related to {{filtertext}}...</div>
     </div>
     <div v-else>
       <v-container>
