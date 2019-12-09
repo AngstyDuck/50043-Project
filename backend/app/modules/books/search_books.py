@@ -125,7 +125,7 @@ def _search_books():
             categorys2.append(temp_cat)
 
     output['books'] = books
-    output['categories'] = categorys2
+    # output['categories'] = categorys2
 
     # for logging received requests
     log_msg = request_log_wrapper(request)

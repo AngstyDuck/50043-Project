@@ -6,11 +6,9 @@ import sys
 import os
 dirname = os.path.dirname(__file__)
 sys.path.insert(1, dirname)
-#from main_bot_row_books import _main_bot_row_books
 from single_book import _single_book
 from main_bot_row_books import _main_bot_row_books
 # from main_bot_row_books import _main_top_row_books
-# from single_book import _single_book
 from helpful_review import _helpful_review
 from main_top_row_books import _main_top_row_books
 from categories import _categories
@@ -24,11 +22,10 @@ def _test():
     return jsonify({"test message": "hello"})
 
 
-#module.add_url_rule("/main_bot_row_books/<start>/<seed>", view_func=_main_bot_row_books, methods=["GET"])
 module.add_url_rule("/single_book/<asin>", view_func=_single_book, methods=["GET"])
-# module.add_url_rule("/main_top_row_books", view_func=_main_top_row_books, methods=["GET"])
+#module.add_url_rule("/main_bot_row_books/<start>/<seed>", view_func=_main_bot_row_books, methods=["GET"])
 module.add_url_rule("/main_bot_row_books", view_func=_main_bot_row_books, methods=["GET"])
-#module.add_url_rule("/single_book/<asin>", view_func=_single_book, methods=["GET"])
+# module.add_url_rule("/main_top_row_books", view_func=_main_top_row_books, methods=["GET"])
 module.add_url_rule("/test", view_func=_test, methods=["GET"])
 module.add_url_rule("/helpful_review", view_func=_helpful_review, methods=["PUT"])
 module.add_url_rule("/main_top_row_books", view_func=_main_top_row_books, methods=["GET"])

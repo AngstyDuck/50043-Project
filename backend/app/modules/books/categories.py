@@ -18,14 +18,8 @@ def _categories():
             if j not in finallst:
                 finallst.append(j)
 
-    outerlist = []
-    for cat in finallst:
-        temp = {}
-        temp['category'] = cat
-        outerlist.append(temp)
-
     finaldict = {}
-    finaldict['categories'] = outerlist
+    finaldict['categories'] = finallst
 
     # for logging received requests
     log_msg = request_log_wrapper(request)
