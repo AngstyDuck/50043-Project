@@ -72,7 +72,12 @@ def _main_bot_row_books():
     finaldict['collection'] = outerlist
 
 
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
+
     return(jsonify(finaldict))
+
 
 def _main_top_row_books():
     print("ping - _main_top_row_books")

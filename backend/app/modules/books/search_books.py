@@ -6,13 +6,15 @@ import json
 from flask import Flask
 from flask import current_app as app
 
+from app.logger import request_log_wrapper
+
 def _search_books():
     print("ping - _search_books")
     start = request.args.get("start_list")  # currently unused
     _end = request.args.get("end_list")  # currently unused
     searchtext = request.args.get("searchtext")
     filtertext = request.args.get("filtertext")
-    limit = 20
+    limit = 60
     output = {}
     print("start: {0}; end: {1}; searchtext: {2}; filtertext: {3}".format(start, _end, searchtext, filtertext))
 
@@ -124,4 +126,11 @@ def _search_books():
 
     output['books'] = books
     output['categories'] = categorys2
+
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
+
     return jsonify(output)
+
+
