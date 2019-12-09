@@ -8,8 +8,11 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+sudo apt-get install docker.io -y
 git clone https://github.com/SolsticeDante/50043-Project.git
 cd 50043-Project/
 git checkout deploy
+sed -i "s/BACKEND_IP_ADDR/$backend_ip/" frontend/ebook/src/store/store.js
+# Add more sed for chaning of ip for backend
 sudo docker-compose build
 screen -dm bash -c "sudo docker-compose up"

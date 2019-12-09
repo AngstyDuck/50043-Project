@@ -5,7 +5,7 @@ instance_id_mysql=`echo $instances_json | python3 -c "import sys, json; print(js
 instance_id_mongodb=`echo $instances_json | python3 -c "import sys, json; print(json.load(sys.stdin)['Instances'][2]['InstanceId'])"`
 echo 'Waiting for VMs to spin up, waiting for 35s'
 sleep '35' 
-echo 'Associating IP address'
+echo 'Querying IP address'
 public_ip_frontendbackend=`aws ec2 describe-instances --instance-id $instance_id_frontendbackend | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
 public_ip_mysql=`aws ec2 describe-instances --instance-id $instance_id_mysql | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
 public_ip_mongodb=`aws ec2 describe-instances --instance-id $instance_id_mongodb | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
