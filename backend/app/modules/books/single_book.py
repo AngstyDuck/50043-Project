@@ -7,6 +7,8 @@ import copy
 from datetime import datetime
 from flask import Flask
 from flask import current_app as app
+from app.logger import request_log_wrapper
+
 
 def _single_book(asin):
     print("ping - _single_book")
@@ -77,5 +79,9 @@ def _single_book(asin):
 
     else:
         output['book'] = {}
+
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
 
     return jsonify(output)

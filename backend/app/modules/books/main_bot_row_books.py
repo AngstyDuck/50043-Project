@@ -3,7 +3,7 @@ from flask import jsonify, request
 from flask import current_app as app
 import numpy as np
 
-
+from app.logger import request_log_wrapper
 
 def _main_bot_row_books():
     print("ping - _main_bot_row_books")
@@ -414,5 +414,10 @@ def _main_top_row_books():
         }
       ]
     }
+
+
+    # for logging received requests
+    log_msg = request_log_wrapper(request)
+    app.logger.info(log_msg)
 
     return jsonify(output)

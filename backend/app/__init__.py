@@ -7,7 +7,11 @@ import sys
 from flask import Flask
 sys.path.insert(1, "./..")
 sys.path.insert(1, "./app/modules")
+sys.path.insert(1, "./app")
 import config
+
+import logging
+from logger import Custom_Request_Logger
 
 # globally accessible libraries
 global MongoDB
@@ -32,7 +36,7 @@ def create_app():
     elif flask_env == "remoteDev":
         app.config.from_object("config.Config_remoteDev")
 
-    # initialize plugins 
+    # initialize db plugins 
     MongoDB = MongoClient(app.config["MONGO_HOST"], 27017)
     PyMySQL = pymysql.connect(
                 host=app.config["MYSQL_HOST"],
@@ -55,6 +59,11 @@ def create_app():
                 PYMYSQL_CONNECTION = PyMySQL,
                 SQLALCHEMY_ENGINE = SQLAlchemy
             )
+
+    # configure logging (before app initialization)
+    custom_logger = Custom_Request_Logger()
+    app.logger.setLevel(logging.INFO)
+    app.logger.addHandler(custom_logger)
     
     with app.app_context():
         import reviews, books
