@@ -24,13 +24,13 @@
       </div>
       <v-container>
         <v-row>
-          <v-col v-for="category in filteredCategory" v-bind:key="category.category">
+          <v-col v-for="category in filteredCategory" v-bind:key="category">
             <button
               type="button"
               class="btn"
-              @click="filterClick(category.category)"
+              @click="filterClick(category)"
               rounded
-            >{{ category.category }}</button>
+            >{{ category }}</button>
           </v-col>
         </v-row>
       </v-container>
@@ -80,7 +80,7 @@ export default {
   computed: {
     filteredCategory() {
       return this.categories.filter(category => {
-        return category.category
+        return category
           .toLowerCase()
           .includes(this.categorysearch.toLowerCase());
       });
