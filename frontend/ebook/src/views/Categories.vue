@@ -2,7 +2,7 @@
   <div>
     <div class="loading-top" v-if="loadingCategories">
       <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-      <div>Loading categories...</div>
+      <div>Loading category list...</div>
     </div>
     <div v-else>
       <div class="top-row">
