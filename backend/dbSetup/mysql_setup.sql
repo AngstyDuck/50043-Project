@@ -2,6 +2,7 @@ CREATE DATABASE amazon;
 
 USE amazon;
 
+-- Create and fill up amazonreviews table; create trigger
 CREATE TABLE amazonreviews(
 	id BIGINT(20)  NOT NULL AUTO_INCREMENT,
 	asin VARCHAR(255) NULL,
@@ -24,6 +25,15 @@ IGNORE 1 ROWS
 ;
 
 create trigger review_trigger before insert on `amazonreviews` for each row set NEW.reviewerID=uuid();
+
+
+-- Create table for logs
+CREATE TABLE logs(
+	id BIGINT(20) NOT NULL AUTO_INCREMENT,
+	datetime DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- on update, current datetime will be updated as well
+	log_msg VARCHAR(510) NULL,
+	PRIMARY KEY (id)
+	);
 
 CREATE USER 'ubuntu'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON * . * TO 'ubuntu'@'localhost';
