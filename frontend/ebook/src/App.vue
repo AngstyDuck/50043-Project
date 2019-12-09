@@ -13,7 +13,9 @@
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
         <v-spacer></v-spacer>
-        <v-spacer></v-spacer>
+        <v-btn @click="goCategory()" class="category-btn">
+          <v-icon left>category</v-icon>Categories
+        </v-btn>
         <v-text-field
           class="mt-6"
           outlined
@@ -23,7 +25,7 @@
           dense
           v-model="searchWord"
           v-on:keyup.enter="searchEnter"
-          v-bind:searchWord='searchWord'
+          v-bind:searchWord="searchWord"
         ></v-text-field>
       </v-app-bar>
 
@@ -60,7 +62,7 @@ export default {
       }
     },
     searchEnter() {
-      if (this.$router.currentRoute.path != "/search"+ this.searchWord ) {
+      if (this.$router.currentRoute.path != "/search" + this.searchWord) {
         this.$router.push({ path: "/search/" + this.searchWord });
       } else {
         location.reload();
@@ -69,6 +71,13 @@ export default {
     goHome() {
       if (this.$router.currentRoute.path != "/main") {
         this.$router.push({ path: "/main" });
+      } else {
+        location.reload();
+      }
+    },
+    goCategory() {
+            if (this.$router.currentRoute.path != "/categories") {
+        this.$router.push({ path: "/categories" });
       } else {
         location.reload();
       }
@@ -81,5 +90,8 @@ export default {
 .scrollDiv {
   max-height: 100vh;
   overflow: auto;
+}
+.category-btn {
+  margin-right: 30px;
 }
 </style>
