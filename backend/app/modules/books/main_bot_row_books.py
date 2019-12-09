@@ -54,50 +54,22 @@ def _main_bot_row_books():
             averageRating = query_result["AVG(overall)"]
             if averageRating:
                 averageRating = float(averageRating)
-
                 temp['averageRating'] = averageRating
-
-                if 'imUrl' in j:
-                    temp['imUrl'] = j['imUrl']
-                else:
-                    temp['imUrl'] = None
-
-                temp['categories'] = j['categories']
-
-                final_related_list = []
-                if 'related' in j:
-                    related = j['related']
-                    related_list = []
-
-                    for a in related:
-                        for b in related[a]:
-                                related_list.append(b)
-
-                    related_results = metadata.find( { 'asin': { '$in': related_list } }, { 'asin':1, 'imUrl':1} )
-
-                    for k in related_results:
-                        temp1 = {}
-                        temp1['asin'] = k['asin']
-                        temp1['imUrl'] = k['imUrl']
-                        final_related_list.append(temp1)
-                    temp['related'] = final_related_list
-
-                else:
-                    temp['related'] = None
-                outerlist.append(temp)
-                print(temp)
-                print("\n\n\n")
             else:
-                # print("empty dict")
-                # outerlist.append({})
-                pass
+                temp['averageRating'] = 0
+        cursor.close()
+
+        if 'imUrl' in j:
+            temp['imUrl'] = j['imUrl']
+        else:
+            temp['imUrl'] = None
+
+        temp['categories'] = j['categories']
+
+        outerlist.append(temp)
+
 
     finaldict['collection'] = outerlist
-
-
-    # for logging received requests
-    log_msg = request_log_wrapper(request)
-    app.logger.info(log_msg)
 
 
     return(jsonify(finaldict))
