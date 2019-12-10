@@ -39,25 +39,25 @@ def _search_books():
         # (b) get asin & title (& categories) from query
         asin = j['asin']
 
+        if 'title' in j:
+            title = j['title']
+        else:
+            title = None
+    
+        if 'categories' in j:
+            categories = j['categories']
+        else:
+            categories = None
+
         # (c1) check if search is asin
-        if title[:3] == 'B00':
+        if searchtext[:3] == 'B00':
             # (d1) query asin if it is
-            if title.lower() == asin.lower():
-                matches.append(title)
-            if len(matches) == limit: break
+            if searchtext.lower() == asin.lower():
+                matches.append(asin)
+                break
 
         # (c2) check title if it isn't asin
         else:
-
-            if 'title' in j:
-                title = j['title']
-            else:
-                title = None
-    
-            if 'categories' in j:
-                categories = j['categories']
-            else:
-                categories = None
     
             # (d2) search for searchtext in title
             if title:
