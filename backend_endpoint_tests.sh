@@ -22,7 +22,7 @@ curl -X GET '127.0.0.1:5000/search_books?start_list=0&end_list=20&searchtext=sta
 curl -X GET '127.0.0.1:5000/filter_books?start_list=0&end_list=20&filtertext=accessories'
 
 # [GET] /review_list/<asin>
-curl -X GET -d "asin_number=B000F83SZQ" 127.0.0.1:5000/review_list
+curl -X GET 127.0.0.1:5000/review_list/B000F83SZQ
 
 # [POST] /post_new_review
 curl -d '{"asin":"asin_value", "overall":5, "reviewText":"oh hey ;)", "reviewerName":"ur m0m", "summary":"yes"}' -H "Content-Type: application/json" -X POST http://localhost:5000/post_new_review
