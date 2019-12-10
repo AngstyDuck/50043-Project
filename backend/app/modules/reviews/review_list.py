@@ -112,9 +112,10 @@ sample_output = {"review":[
                     }
                 ]}
 
-def _review_list():
+def _review_list(asin):
     print("ping - _review_list")
-    asin_number = request.args.get("asin_number")
+    # asin_number = request.args.get("asin_number")
+    asin_number = asin
     query = "SELECT * FROM {0} WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], str(asin_number))
     connection = app.config["PYMYSQL_CONNECTION"].cursor()
     with connection as cursor:
