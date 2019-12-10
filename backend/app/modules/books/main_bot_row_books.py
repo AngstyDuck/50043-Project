@@ -45,19 +45,19 @@ def _main_bot_row_books():
         # averageRating = db.session.query(func.avg(amazonreviews.overall)).group_by(amazonreviews.asin).filter_by(asin=j['asin']).scalar()
 
         # pymysql query
-        query = "SELECT AVG(overall) FROM {0} WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], temp['asin'])
+        # query = "SELECT AVG(overall) FROM {0} WHERE asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], temp['asin'])
         # with connection as cursor:
-        with connection.cursor() as cursor:
-            print("query: {0}".format(query))
-            cursor.execute(query)
-            query_result = cursor.fetchone()
-            averageRating = query_result["AVG(overall)"]
-            if averageRating:
-                averageRating = float(averageRating)
-                temp['averageRating'] = averageRating
-            else:
-                temp['averageRating'] = 0
-        cursor.close()
+        # with connection.cursor() as cursor:
+            # print("query: {0}".format(query))
+            # cursor.execute(query)
+            # query_result = cursor.fetchone()
+            # averageRating = query_result["AVG(overall)"]
+            # if averageRating:
+                # averageRating = float(averageRating)
+                # temp['averageRating'] = averageRating
+            # else:
+                # temp['averageRating'] = 0
+        # cursor.close()
 
         if 'imUrl' in j:
             temp['imUrl'] = j['imUrl']
