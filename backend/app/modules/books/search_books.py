@@ -96,17 +96,17 @@ def _search_books():
         temp_book['categories'] = json_book['categories']
 
         # (c) calculate averageRating
-        query = "SELECT avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
-        connection = app.config["PYMYSQL_CONNECTION"].cursor()
-        with connection as cursor:
-            cursor.execute(query)
-            query_result = cursor.fetchone()
-            if query_result:
-                averageRating = query_result["avg(overall)"]
-                temp_book['averageRating'] = float(averageRating)
-            else:
-                temp_book['averageRating'] = 0
-        cursor.close()
+        # query = "SELECT avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
+        # connection = app.config["PYMYSQL_CONNECTION"].cursor()
+        # with connection as cursor:
+            # cursor.execute(query)
+            # query_result = cursor.fetchone()
+            # if query_result:
+                # averageRating = query_result["avg(overall)"]
+                # temp_book['averageRating'] = float(averageRating)
+            # else:
+                # temp_book['averageRating'] = 0
+        # cursor.close()
 
         # (d) add book to books
         books.append(temp_book)
