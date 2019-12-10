@@ -17,7 +17,8 @@
               class="mx-auto"
               max-width="344"
             >
-              <v-img :src="book.imUrl" min-height="130px"></v-img>
+              <v-img v-if="book.imUrl" :src="book.imUrl" min-height="130px"></v-img>
+              <v-img v-else min-height="130px"></v-img>
               <!-- <v-card-title>{{ asin }}</v-card-title> -->
             </v-card>
           </v-hover>
