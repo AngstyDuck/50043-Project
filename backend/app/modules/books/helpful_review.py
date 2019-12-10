@@ -41,7 +41,7 @@ def _helpful_review():
         helpful_.append(int(query_result[0]["helpful"][4])+1)
         cursor.execute("UPDATE {0} SET helpful = \'{1}\' WHERE id =\'{2}\'".format(app.config["MYSQL_TABLE_REVIEWS"],str(helpful_),query_result[0]["id"] ))
     connection.commit()
-    cursor.exit()
+    cursor.close()
 
     # for logging received requests
     log_msg = request_log_wrapper(request)
