@@ -14,7 +14,7 @@ def _filter_books():
     start = request.args.get("start_list")  # currently unused
     _end = request.args.get("end_list")  # currently unused
     filtertext = request.args.get("filtertext")
-    limit = 60
+    limit = 20
     output = {}
     print("start: {0}; end: {1}; filtertext: {2}".format(start, _end, filtertext))
 

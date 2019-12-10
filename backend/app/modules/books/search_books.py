@@ -14,7 +14,7 @@ def _search_books():
     _end = request.args.get("end_list")  # currently unused
     searchtext = request.args.get("searchtext")
     filtertext = request.args.get("filtertext")
-    limit = 60
+    limit = 20
     output = {}
     print("start: {0}; end: {1}; searchtext: {2}; filtertext: {3}".format(start, _end, searchtext, filtertext))
 
