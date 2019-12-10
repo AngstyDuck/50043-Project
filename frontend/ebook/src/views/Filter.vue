@@ -1,51 +1,31 @@
 <template>
   <div>
-    <v-dialog v-if="selectedBook" v-model="bookDialog" min-height="900" width="1700">
+    <v-dialog v-model="bookDialog" min-height="900" width="1700">
       <Book :book="selectedBook" />
     </v-dialog>
-    <div class="loading" v-if="loadingBookList">
+    <div class="loading-top" v-if="loadingBookList">
       <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-      <div>Loading books...</div>
+      <div>Loading {{filtertext}} books...</div>
     </div>
-    <v-container v-else>
-      <v-row>
-        <v-expansion-panels>
-          <v-expansion-panel>
-            <v-expansion-panel-header class="dropheader">Categories</v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
-                <v-col v-for="category in categories" v-bind:key="category.category">
-                  <v-btn @click="filterClick(category.category)" rounded>{{ category.category }}</v-btn>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-row>
-      <v-row>
-        <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
-          <v-hover v-slot:default="{ hover }">
-            <v-card
-              :elevation="hover ? 12 : 2"
-              @click="selectBook(book)"
-              class="mx-auto"
-              max-width="344"
-            >
-              <v-img :src="book.imUrl" min-height="130px"></v-img>
-              <!-- <v-card-title>{{ asin }}</v-card-title> -->
-            </v-card>
-          </v-hover>
-        </v-col>
-      </v-row>
-      <v-row v-if="collectionLoading">
-        <v-col>
-          <div class="loading-collection">
-            <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-            <div>Loading collection...</div>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+    <div v-else>
+      <v-container>
+        <v-row>
+          <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
+            <v-hover v-slot:default="{ hover }">
+              <v-card
+                :elevation="hover ? 12 : 2"
+                @click="selectBook(book)"
+                class="mx-auto"
+                max-width="344"
+              >
+                <v-img :src="book.imUrl" min-height="130px"></v-img>
+                <!-- <v-card-title>{{ asin }}</v-card-title> -->
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -53,7 +33,7 @@
 .book {
   padding: 0 10px;
 }
-.loading {
+.loading-top {
   position: absolute;
   left: 40%;
   text-align: center;
@@ -83,36 +63,13 @@ export default {
     bookDialog: false,
     books: [],
     selectedBook: null,
-    loadingBookList: false,
+    loadingBookList: true,
     filtertext: "",
-    categories: [],
-    category: "",
     collectionLoading: false,
     fetchLength: 21
   }),
   methods: {
-    filterClick(category) {
-      this.category = category;
-      this.books = [];
-      if (this.$router.currentRoute.path != "/filter" + this.category) {
-        this.$router.push({ path: "/filter/" + this.category });
-      } else {
-        location.reload();
-      }
-    },
-    getFilterList() {
-      this.$store.dispatch("store/categories", {}).then(response => {
-        if (response != 0) {
-          this.categories = response.categories;
-          console.log(response.categories);
-        } else {
-          console.log("Error retrieving categories");
-          console.log(this.categories);
-        }
-      });
-    },
     getBooks(filtertext) {
-      this.collectionLoading = true;
       const payload = { filtertext: this.filtertext };
       this.$store
         .dispatch("store/filter_books", {
@@ -125,7 +82,7 @@ export default {
         .then(response => {
           if (response != 0) {
             this.books.push.apply(this.books, response.books);
-            this.collectionLoading = false;
+            this.loadingBookList = false;
             console.log(this.books);
           } else {
             console.log("Error retrieving searched books_list");
@@ -161,17 +118,11 @@ export default {
   },
   mounted() {
     this.getBooks();
-    this.getFilterList();
     EventBus.$on("CHANGE_BOOK", payload => {
-      this.selectBook(payload);
+      this.setBook(payload);
     });
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
       this.bookDialog = false;
-    });
-    EventBus.$on("GET_BOT_ROW_BOOKS", payload => {
-      if (!this.collectionLoading) {
-        this.getBooks();
-      }
     });
   }
 };

@@ -1,27 +1,13 @@
 <template>
   <div>
-    <v-dialog v-if="selectedBook" v-model="bookDialog" min-height="900" width="1700">
+    <v-dialog v-model="bookDialog" min-height="900" width="1700">
       <Book :book="selectedBook" />
     </v-dialog>
     <div class="loading" v-if="loadingBookList">
       <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-      <div>Loading books...</div>
+      <div>Loading books related to {{searchtext}}...</div>
     </div>
     <v-container v-else>
-      <v-row>
-        <v-expansion-panels>
-          <v-expansion-panel>
-            <v-expansion-panel-header class="dropheader">Categories</v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
-                <v-col v-for="category in categories" v-bind:key="category.category">
-                  <v-btn @click="filterClick(category.category)" rounded>{{ category.category }}</v-btn>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-row>
       <v-row>
         <v-col v-for="book in books" v-bind:key="book.asin" cols="12" xs="6" sm="4" md="3" lg="2">
           <v-hover v-slot:default="{ hover }">
@@ -35,14 +21,6 @@
               <!-- <v-card-title>{{ asin }}</v-card-title> -->
             </v-card>
           </v-hover>
-        </v-col>
-      </v-row>
-      <v-row v-if="collectionLoading">
-        <v-col>
-          <div class="loading-collection">
-            <v-progress-circular :size="90" :width="7" color="primary" indeterminate></v-progress-circular>
-            <div>Loading collection...</div>
-          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -83,24 +61,13 @@ export default {
     bookDialog: false,
     books: [],
     selectedBook: null,
-    loadingBookList: false,
+    loadingBookList: true,
     searchtext: "",
-    categories: [],
-    category: "",
-    collectionLoading: false,
     fetchLength: 21,
     filtertext: ""
   }),
   methods: {
-    filterClick(category) {
-      this.category = category;
-      this.books = [];
-      console.log(this.searchtext);
-      console.log(this.category);
-      this.getBooks(this.searchtext, this.category);
-    },
     getBooks(searchtext, filtertext) {
-      this.collectionLoading = true;
       this.$store
         .dispatch("store/search_books", {
           params: {
@@ -113,13 +80,11 @@ export default {
         .then(response => {
           if (response != 0) {
             this.books.push.apply(this.books, response.books);
-            this.categories = response.categories;
-            this.collectionLoading = false;
+            this.loadingBookList = false;
             console.log(this.books);
           } else {
             console.log("Error retrieving searched books_list");
             console.log(this.searchtext);
-            console.log(this.categories);
           }
         });
     },
@@ -152,15 +117,12 @@ export default {
   mounted() {
     this.getBooks();
     EventBus.$on("CHANGE_BOOK", payload => {
-      this.selectBook(payload);
+      console.log("payload");
+      console.log(payload);
+      this.setBook(payload);
     });
     EventBus.$on("CLOSE_BOOK_DIALOG", payload => {
       this.bookDialog = false;
-    });
-    EventBus.$on("GET_BOT_ROW_BOOKS", payload => {
-      if (!this.collectionLoading) {
-        this.getBooks();
-      }
     });
   }
 };
