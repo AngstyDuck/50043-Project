@@ -39,37 +39,47 @@ def _search_books():
         # (b) get asin & title (& categories) from query
         asin = j['asin']
 
-        if 'title' in j:
-            title = j['title']
+        # (c1) check if search is asin
+        if title[:3] == 'B00':
+            # (d1) query asin if it is
+            if title.lower() == asin.lower():
+                matches.append(title)
+            if len(matches) == limit: break
+
+        # (c2) check title if it isn't asin
         else:
-            title = None
 
-        if 'categories' in j:
-            categories = j['categories']
-        else:
-            categories = None
+            if 'title' in j:
+                title = j['title']
+            else:
+                title = None
+    
+            if 'categories' in j:
+                categories = j['categories']
+            else:
+                categories = None
+    
+            # (d2) search for searchtext in title
+            if title:
+                # use casefold for cases of non-Latin characters
+                if searchtext.casefold() in title.casefold():
+    
+                    # (e2) check if category matches filtertext (if present)
+                    if categories:
+                        found = False
+                        for cat_list in categories:
+                            for category in cat_list:
+                                if filtertext.lower() in category.lower():
+                                    found = True
+                                    break
+                            if found: break
+    
+                        # if searchtext and filtertext matches, add to matches
+                        if found: matches.append(asin)    
+                    else:
+                        matches.append(asin)
 
-        # (c) search for searchtext in title
-        if title:
-            # use casefold for cases of non-Latin characters
-            if searchtext.casefold() in title.casefold():
-
-                # (d) check if category matches filtertext (if present)
-                if categories:
-                    found = False
-                    for cat_list in categories:
-                        for category in cat_list:
-                            if filtertext.lower() in category.lower():
-                                found = True
-                                break
-                        if found: break
-
-                    # if searchtext and filtertext matches, add to matches
-                    if found: matches.append(asin)
-                else:
-                    matches.append(asin)
-
-                if len(matches) == limit: break
+                    if len(matches) == limit: break
 
     print("Found {0} matches: {1}".format(len(matches), matches))
 

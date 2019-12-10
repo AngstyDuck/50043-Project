@@ -21,7 +21,7 @@ curl -X GET '127.0.0.1:5000/search_books?start_list=0&end_list=20&searchtext=sta
 # [GET] /filter_books
 curl -X GET '127.0.0.1:5000/filter_books?start_list=0&end_list=20&filtertext=accessories'
 
-# [GET] /review_list/<asin_number>
+# [GET] /review_list/<asin>
 curl -X GET -d "asin_number=B000F83SZQ" 127.0.0.1:5000/review_list
 
 # [POST] /post_new_review
