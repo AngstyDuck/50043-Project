@@ -17,8 +17,8 @@ def _single_book(asin):
     avgRatingInt = 0
     output = {}
 
-    connection = app.config["PYMYSQL_CONNECTION"].cursor()
-    with connection as cursor:
+    connection = app.config["PYMYSQL_CONNECTION"]
+    with connection.cursor() as cursor:
         cursor.execute(query)
         query_result = cursor.fetchone()
 
@@ -27,7 +27,6 @@ def _single_book(asin):
             avgRatingInt = float(avgRating)
         else:
             avgRatingInt = 0
-    cursor.close()
 
     connectionMongo = app.config["MONGODB_CLIENT"]
     mongodb = connectionMongo['metadata']
