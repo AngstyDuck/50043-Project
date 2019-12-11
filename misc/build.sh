@@ -15,8 +15,8 @@ public_dns_mongodb=`aws ec2 describe-instances --instance-id $instance_id_mongod
 echo "frontend ip: $public_ip_frontendbackend"
 chmod 400 key1.pem
 echo 'SSH into mysql'
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_frontendbackend 'bash -s' < frontendbackend.sh $public_ip_frontendbackend $public_ip_mysql $public_ip_mongodb
-echo 'SSH into mongodb'
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_mysql 'bash -s' < mysql_install.sh
-echo 'SSH into frontend/backend'
+echo 'SSH into mongodb'
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_mongodb 'bash -s' < mongodb_setup.sh
+echo 'SSH into frontend/backend'
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_frontendbackend 'bash -s' < frontendbackend.sh $public_ip_frontendbackend $public_ip_mysql $public_ip_mongodb

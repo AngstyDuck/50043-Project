@@ -11,7 +11,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo apt-get install docker.io -y
 git clone https://github.com/SolsticeDante/50043-Project.git
 cd 50043-Project/
-git checkout deploy
+git checkout develop
 sed -i "s/BACKEND_IP_ADDR/$backend_ip/" frontend/ebook/src/store/store.js
 sed -i "s/BACKEND_MYSQL_IP/$mysql_ip/" backend/config.py
 sed -i "s/BACKEND_MONGO_IP/$mongo_ip/" backend/config.py
