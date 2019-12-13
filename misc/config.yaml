@@ -22,7 +22,7 @@ provider: ec2
 providers:
   ec2:
     key-name: flint_cluster
-    identity-file: /home/xubuntu/Desktop/flint_cluster.pem
+    identity-file: TO_REPLACEE
     instance-type: t2.small
     region: us-east-1
     # availability-zone: <name>
