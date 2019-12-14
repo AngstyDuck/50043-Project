@@ -4,6 +4,8 @@ from flask import jsonify, request
 import sys
 import json
 import copy
+import time
+import random
 from datetime import datetime
 from flask import Flask
 from flask import current_app as app
@@ -11,6 +13,7 @@ from app.logger import request_log_wrapper
 
 
 def _single_book(asin):
+    time.sleep(random.random()*2)
     print("ping - _single_book")
     asin = str(asin)
     query = "SELECT avg(overall) FROM {0} GROUP BY asin HAVING asin=\'{1}\'".format(app.config["MYSQL_TABLE_REVIEWS"], asin)
