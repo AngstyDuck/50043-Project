@@ -39,7 +39,7 @@ class Config_remoteDev:
     MONGO_USERNAME = ""
     MONGO_PASSWORD = ""
 
-    MYSQL_HOST = "13.250.127.10"
+    MYSQL_HOST = "54.169.82.238"
     MYSQL_USERNAME = "root"
     MYSQL_PASSWORD = "password"
     MYSQL_DATABASE = "amazon"
