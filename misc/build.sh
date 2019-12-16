@@ -3,8 +3,8 @@ instances_json=`aws ec2 run-instances --image-id ami-061eb2b23f9f8839c --count 3
 instance_id_frontendbackend=`echo $instances_json | python3 -c "import sys, json; print(json.load(sys.stdin)['Instances'][0]['InstanceId'])"`
 instance_id_mysql=`echo $instances_json | python3 -c "import sys, json; print(json.load(sys.stdin)['Instances'][1]['InstanceId'])"`
 instance_id_mongodb=`echo $instances_json | python3 -c "import sys, json; print(json.load(sys.stdin)['Instances'][2]['InstanceId'])"`
-echo 'Waiting for VMs to spin up, waiting for 35s'
-sleep '35' 
+echo 'Waiting for VMs to spin up, waiting for 60s'
+sleep '60' 
 echo 'Querying IP address'
 public_ip_frontendbackend=`aws ec2 describe-instances --instance-id $instance_id_frontendbackend | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`
 public_ip_mysql=`aws ec2 describe-instances --instance-id $instance_id_mysql | python3 -c "import sys, json; print(json.load(sys.stdin)['Reservations'][0]['Instances'][0]['PublicIpAddress'])"`

@@ -53,5 +53,5 @@ echo '>>>>>>>>>>>>>>> Changing Config'
 cd /etc/
 
 sudo sed -i -e 's/127.0.0.1/0.0.0.0/g' mongod.conf
-
+sudo service mongod restart
 echo '>>>>>>>>>>>>>>> Config Changed'
