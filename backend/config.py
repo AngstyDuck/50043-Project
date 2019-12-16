@@ -35,11 +35,11 @@ class Config_local:
     MYSQL_TABLE_REVIEWS = "amazonreviews"
 
 class Config_remoteDev:
-    MONGO_HOST = "18.139.108.110"
+    MONGO_HOST = "MONGO_IP"
     MONGO_USERNAME = ""
     MONGO_PASSWORD = ""
 
-    MYSQL_HOST = "54.169.82.238"
+    MYSQL_HOST = "MYSQL_IP"
     MYSQL_USERNAME = "root"
     MYSQL_PASSWORD = "password"
     MYSQL_DATABASE = "amazon"

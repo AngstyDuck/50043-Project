@@ -20,3 +20,6 @@ echo 'SSH into mongodb'
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_mongodb 'bash -s' < mongodb_setup.sh
 echo 'SSH into frontend/backend'
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "key1.pem" ubuntu@$public_dns_frontendbackend 'bash -s' < frontendbackend.sh $public_ip_frontendbackend $public_ip_mysql $public_ip_mongodb
+echo "frontend ip: $public_ip_frontendbackend"
+echo "mysql ip: $public_ip_mysql"
+echo "mongo ip: $public_ip_mongodb"
