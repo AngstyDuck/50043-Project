@@ -6,12 +6,14 @@ import numpy as np
 from app.logger import request_log_wrapper
 
 def _main_bot_row_books():
+    """
+    Returns a random list of 18 books with a given seed
+    """
+
     print("ping - _main_bot_row_books")
     start = request.args.get("start_list")
     seed = request.args.get("seed")
-    seed = 833  # HARDCODED SEED (for now)
-    _end = request.args.get("end_list")  # currently unused
-    print("start: {0}; end: {1}; seed: {2}".format(start, _end, seed))
+    print("start: {0}; seed: {1}".format(start, seed))
 
     # declare pymysql client
     connection = app.config["PYMYSQL_CONNECTION"]
@@ -77,4 +79,3 @@ def _main_bot_row_books():
     app.logger.info(log_msg)
 
     return(jsonify(finaldict))
-

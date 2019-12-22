@@ -10,13 +10,12 @@ from app.logger import request_log_wrapper
 
 def _search_books():
     print("ping - _search_books")
-    start = request.args.get("start_list")  # currently unused
-    _end = request.args.get("end_list")  # currently unused
+
     searchtext = request.args.get("searchtext")
     filtertext = request.args.get("filtertext")
     limit = 20
     output = {}
-    print("start: {0}; end: {1}; searchtext: {2}; filtertext: {3}".format(start, _end, searchtext, filtertext))
+    print("searchtext: {0}; filtertext: {1}".format(searchtext, filtertext))
 
     # declare clients for mongo & mysql
     mongo = app.config["MONGODB_CLIENT"]
@@ -43,7 +42,7 @@ def _search_books():
             title = j['title']
         else:
             title = None
-    
+
         if 'categories' in j:
             categories = j['categories']
         else:
@@ -58,12 +57,12 @@ def _search_books():
 
         # (c2) check title if it isn't asin
         else:
-    
+
             # (d2) search for searchtext in title
             if title:
                 # use casefold for cases of non-Latin characters
                 if searchtext.casefold() in title.casefold():
-    
+
                     # (e2) check if category matches filtertext (if present)
                     if categories:
                         found = False
@@ -73,9 +72,9 @@ def _search_books():
                                     found = True
                                     break
                             if found: break
-    
+
                         # if searchtext and filtertext matches, add to matches
-                        if found: matches.append(asin)    
+                        if found: matches.append(asin)
                     else:
                         matches.append(asin)
 
@@ -142,5 +141,3 @@ def _search_books():
     app.logger.info(log_msg)
 
     return jsonify(output)
-
-

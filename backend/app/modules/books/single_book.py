@@ -13,6 +13,10 @@ from app.logger import request_log_wrapper
 
 
 def _single_book(asin):
+    """
+    Returns 1 book with given asin 
+    """
+
     time.sleep(random.random()*2)
     print("ping - _single_book")
     asin = str(asin)
