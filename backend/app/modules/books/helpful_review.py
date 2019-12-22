@@ -30,6 +30,9 @@ def _helpful_review():
    # "asin": "B000F83SZQ",
    # "reviewerName": "WPY"
    # }
+    """
+    Updates helpful rating for book reviews
+    """
     data = request.json
     getQuery = "SELECT * FROM {0} WHERE asin=\'{1}\' and  reviewerID=\'{2}\' and reviewerName=\'{3}\' LIMIT 1 ".format(app.config["MYSQL_TABLE_REVIEWS"], data['asin'], data['reviewerID'],data['reviewerName'])
     connection = app.config["PYMYSQL_CONNECTION"]

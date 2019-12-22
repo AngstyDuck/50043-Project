@@ -5,6 +5,9 @@ from app.logger import request_log_wrapper
 
 
 def _post_new_review():
+    """
+    Posts new review on a book
+    """
     print("ping - _post_new_review")
     body = request.json
     

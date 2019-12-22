@@ -5,6 +5,9 @@ from flask import current_app as app
 from app.logger import request_log_wrapper
 
 def _categories():
+    """
+    Returns all available categories for books
+    """
 
     # declare pymongo client
     mongo = app.config["MONGODB_CLIENT"]

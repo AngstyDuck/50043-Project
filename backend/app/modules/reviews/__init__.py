@@ -16,6 +16,7 @@ module = Blueprint("reviews", __name__)
 def _test():
     return jsonify({"test message": "hello"})
 
+# attach all functions to the blueprint object and attach the blueprint object to our global app object
 module.add_url_rule("/review_list/<asin>", view_func=_review_list, methods=["GET"])
 module.add_url_rule("/post_new_review", view_func=_post_new_review, methods=["POST"])
 module.add_url_rule("/test", view_func=_test, methods=["GET"])

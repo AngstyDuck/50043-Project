@@ -3,6 +3,10 @@ import logging
 import sys
 
 
+"""
+The custom logger is based off a class of logger that python inherently provides. It is customised to add entries to the database whenever a new request is made.
+"""
+
 class Custom_Request_Logger(logging.Handler):
     def __init__(self):
         logging.Handler.__init__(self, logging.NOTSET)

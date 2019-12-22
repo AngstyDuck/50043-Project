@@ -8,7 +8,6 @@ dirname = os.path.dirname(__file__)
 sys.path.insert(1, dirname)
 from single_book import _single_book
 from main_bot_row_books import _main_bot_row_books
-# from main_bot_row_books import _main_top_row_books
 from helpful_review import _helpful_review
 from main_top_row_books import _main_top_row_books
 from categories import _categories
@@ -22,6 +21,7 @@ def _test():
     return jsonify({"test message": "hello"})
 
 
+# attach all functions to the blueprint object and attach the blueprint object to our global app object
 module.add_url_rule("/single_book/<asin>", view_func=_single_book, methods=["GET"])
 #module.add_url_rule("/main_bot_row_books/<start>/<seed>", view_func=_main_bot_row_books, methods=["GET"])
 module.add_url_rule("/main_bot_row_books", view_func=_main_bot_row_books, methods=["GET"])

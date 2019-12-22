@@ -11,7 +11,7 @@ sys.path.insert(1, "./app")
 import config
 
 import logging
-from logger import Custom_Request_Logger
+from logger import Custom_Request_Logger  # imports a custom python logger that logs all http requests made to server
 
 # globally accessible libraries
 global MongoDB
