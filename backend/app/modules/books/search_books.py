@@ -9,6 +9,13 @@ from flask import current_app as app
 from app.logger import request_log_wrapper
 
 def _search_books():
+    """
+    Do a comb through the database and give books that matches the search
+    text as well as a list of all categories that these books belong to.
+    If filtertext is given, only return the books that belong to that category
+    (but still return the list of categories).
+    """
+
     print("ping - _search_books")
 
     searchtext = request.args.get("searchtext")

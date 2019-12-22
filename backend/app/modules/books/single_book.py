@@ -14,7 +14,7 @@ from app.logger import request_log_wrapper
 
 def _single_book(asin):
     """
-    Returns 1 book with given asin 
+    Fetches all the details of a single book (minus reviews).
     """
 
     time.sleep(random.random()*2)

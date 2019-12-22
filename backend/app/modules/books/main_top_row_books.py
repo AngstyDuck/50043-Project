@@ -5,7 +5,7 @@ import numpy as np
 
 def _main_top_row_books():
     """
-    Returns 15 books to populate top row of front-page
+    Gets a list of preselected recommended and best selling books
     """
     asins = ["B0002IQ15S", "B000F83TEQ", "B000FA5RE4", "B000FA5UXC", "B000FA5SHK", "B000FA5M6M", "B000FA5PV4", "B000FA5MQ2", "B000FA5KJQ", "B000FA66XU", "B000FA5ZEG", "B000FA5TOM", "B000FA5TF6", "B000FA5V2C", "B000FA61JY"]
     # declare pymysql client

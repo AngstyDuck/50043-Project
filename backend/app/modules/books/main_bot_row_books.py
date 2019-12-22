@@ -7,7 +7,7 @@ from app.logger import request_log_wrapper
 
 def _main_bot_row_books():
     """
-    Returns a random list of 18 books with a given seed
+    Gets a randomized list of books of length 18.
     """
 
     print("ping - _main_bot_row_books")

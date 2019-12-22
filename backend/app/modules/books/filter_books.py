@@ -9,6 +9,10 @@ from flask import current_app as app
 from app.logger import request_log_wrapper
 
 def _filter_books():
+    """
+    Combs through the database to find a list of books that belongs in the category
+    matching the filter text and return the first book to the 20th book if any.
+    """
 
     print("ping - _filter_books")
     filtertext = request.args.get("filtertext")
